@@ -37,3 +37,8 @@ web/view/nav.jsp~
 web/view/projectManage/
 web/view/projectStock/
 web/view/system/role/showRoleMenu.jsp~
+web/WEB-INF/classes/com/common/
+web/WEB-INF/classes/com/system/controller/
+web/WEB-INF/classes/com/system/service/
+web/WEB-INF/classes/com/system/vo/
+web/WEB-INF/lib/
