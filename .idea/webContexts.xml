@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebContextManager">
+    <option name="state">
+      <map>
+        <entry key="file://$PROJECT_DIR$/web/view/common/common.jsp" value="file://$PROJECT_DIR$/web/view/common" />
+        <entry key="file://$PROJECT_DIR$/web/view/system/protype/showProtype.jsp" value="file://$PROJECT_DIR$/web/view/system/protype" />
+        <entry key="file://$PROJECT_DIR$/web/view/system/user/showUser.jsp" value="file://$PROJECT_DIR$/web/view/system/user" />
+      </map>
+    </option>
+  </component>
+</project>

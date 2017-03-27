@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+
+	<typeAlias alias="Protype" type="com.system.vo.Protype" />
+
+	<select id="getAllProtypes" resultClass="java.util.HashMap" parameterClass="java.lang.String" remapResults="true">
+		$sql$
+	</select>
+	
+	<select id="parentProtypes" resultClass="java.util.HashMap" parameterClass="java.lang.String" remapResults="true">
+		$sql$
+	</select>
+	
+	<insert id="addProtype" parameterClass="Protype">
+		insert into t_protype (typename,isfather,pid,remark) values (#typename#,#isfather#,#pid#,#remark#)  
+	</insert>
+
+	<update id="updateProtype" parameterClass="Protype">
+		 update t_protype set id=#id#,typename=#typename#,isfather=#isfather#,pid=#pid#,remark=#remark# where id=#id#
+	</update>
+	
+	<delete id="deleteProtype" parameterClass="java.lang.String">
+		DELETE FROM t_protype WHERE id=#id#
+	</delete>
+	
+	<select id="findProtypeById" resultClass="Protype" parameterClass="java.lang.String">
+		SELECT Q.* FROM t_protype Q WHERE Q.id=#id#
+	</select>
+
+</sqlMap>

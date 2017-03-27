@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+    <typeAlias alias="User" type="com.system.vo.User"/>
+
+    <select id="login" resultClass="User" parameterClass="java.util.Map">
+        SELECT U.*
+        FROM t_user U
+        WHERE loginname =#USERNAME# AND loginpass=#USERPASS#
+    </select>
+
+    <select id="fnUser" resultClass="User" parameterClass="java.util.Map">
+        SELECT U.*
+        FROM t_user U
+        WHERE loginname =#USERNAME#
+    </select>
+
+    <select id="get_menu" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+        SELECT *
+        FROM system_menu
+        ORDER BY orderby
+    </select>
+
+    <select id="get_menu_my" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+        SELECT *
+        FROM system_role_menu
+        WHERE role_id = (SELECT user_role_id
+                         FROM system_userinf
+                         WHERE user_id =#user_id#)
+    </select>
+
+</sqlMap>
