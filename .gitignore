@@ -42,3 +42,5 @@ web/WEB-INF/classes/com/system/controller/
 web/WEB-INF/classes/com/system/service/
 web/WEB-INF/classes/com/system/vo/
 web/WEB-INF/lib/
+.idea/
+.idea/kotlinc.xml
