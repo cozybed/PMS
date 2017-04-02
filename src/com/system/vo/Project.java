@@ -5,15 +5,18 @@ import java.util.Date;
 public class Project {
     private int id;//int(11)项目id
     private String proname;//varchar(500)项目名称
-    private Date startTime;//开始时间
-    private Date endTime;//结束时间
+    private String startTime;//开始时间
+    private String endTime;//结束时间
     private float budget;//投资预算
     private int type1;//一级类型
     private int type2;//二级类型
     private String scale;//建设规模
-    private int userId;//申请人id
-    private int areaId;//区县id
-    private int cityId;//市id
+    private String userName;//所有人姓名
+    private String contactName;
+    private String contactPhone;
+    private String area;
+    private String city;
+    private String province;
     private String address;//详细地址
     private int processId;//进展阶段
     private String sourceDepartment;//报送部门
@@ -37,19 +40,19 @@ public class Project {
         this.proname = proname;
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
@@ -85,28 +88,52 @@ public class Project {
         this.scale = scale;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public int getAreaId() {
-        return areaId;
+    public String getContactName() {
+        return contactName;
     }
 
-    public void setAreaId(int areaId) {
-        this.areaId = areaId;
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
     }
 
-    public int getCityId() {
-        return cityId;
+    public String getContactPhone() {
+        return contactPhone;
     }
 
-    public void setCityId(int cityId) {
-        this.cityId = cityId;
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     public String getAddress() {
@@ -156,4 +183,5 @@ public class Project {
     public void setApprovalDiscription(String approvalDiscription) {
         this.approvalDiscription = approvalDiscription;
     }
+
 }

@@ -9,15 +9,15 @@ import com.common.PageBean;
 
 @Component
 public interface ProtypeService {
-PageBean createQueryPage(Map param);
-	
-	List parentProtypes();
-	
-	String addObject(Object obj);
-	
-	Object findObjectById(String string);
-	
-	String updateObject(Object obj);
-	
-	String deleteObject(String id);
+    PageBean createQueryPage(Map param);
+
+    List parentProtypes();
+
+    String addObject(Object obj);
+
+    Object findObjectById(String string);
+
+    String updateObject(Object obj);
+
+    String deleteObject(String id);
 }

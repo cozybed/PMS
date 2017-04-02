@@ -18,10 +18,11 @@
                 errorstr = errorstr + ei + '、项目类型名称不能为空\n';
             }
 
-//            if ($.trim($("#pid").val()) == '') {
-//                ei++;
-//                errorstr = errorstr + ei + '、pid不能为空\n';
-//            }
+
+            if ($.trim($("#isfather").val()) == '1' && $('#pid').val() != '0') {
+                ei++;
+                errorstr = errorstr + ei + '、一级类型没有父级类型\n';
+            }
             if (errorstr.length > 0) {
                 alert(err_po + errorstr);
             }
@@ -80,7 +81,7 @@
                         <label class="col-md-3 control-label">父级类型：</label>
                         <div class="col-md-9">
                             <select name="pid" id="pid" class="form-control" style="width:40%;">
-                                <option value="0">请选择...</option>
+                                <option value="0">请选择...(默认一级类型)</option>
                                 <c:forEach items="${parentProtypes}" var="pp">
                                     <option value="${pp.id}"
                                             <c:if test="${pp.id eq map.pid}">selected</c:if>>${pp.typename}</option>
@@ -109,5 +110,6 @@
         </div>
     </div>
 </form>
+
 </body>
 </html>

@@ -98,7 +98,7 @@ INSERT INTO `t_role_menu` (`role_id`, `menu_id`)
 VALUES (1, '2'), (1, '3'), (1, '3.Add'), (1, '3.Delete'), (1, '3.Update'), (1, '3.View'), (1, '3.Import'),
   (1, '3.Export'), (1, '4'), (1, '5'), (1, '6'), (1, '7'), (1, '8'), (1, '9'), (1, '10'), (1, '10.Add'),
   (1, '10.Delete'), (1, '10.Update'), (1, '10.View'), (1, '11'), (1, '12'), (1, '12.Add'), (1, '12.Delete'),
-  (1, '12.Update'), (1, '12.View'),(1,'2.View'),(1,'2.Edit');
+  (1, '12.Update'), (1, '12.View'), (1, '2.View'), (1, '2.Edit');
 INSERT INTO `t_role_menu` (`role_id`, `menu_id`) VALUES (2, '5'), (2, '6'), (2, '7'), (2, '8'), (2, '9');
 INSERT INTO `t_role_menu` (`role_id`, `menu_id`) VALUES (3, '5'), (3, '6'), (3, '8'), (3, '9');
 
@@ -195,45 +195,54 @@ INSERT INTO `t_process` (`id`, `pname`) VALUES (1, '谋划'), (2, '前期'), (3,
 DROP TABLE IF EXISTS `t_project`;
 
 CREATE TABLE IF NOT EXISTS `t_project` (
-  `id`                  INT(11) NOT NULL AUTO_INCREMENT
+  `id`                  INT(11) NOT NULL   AUTO_INCREMENT
   COMMENT '项目id',
-  `proname`             VARCHAR(500)     DEFAULT NULL
+  `proname`             VARCHAR(500)       DEFAULT NULL
   COMMENT '项目名称',
-  `startTime`           DATE             DEFAULT NULL
+  `startTime`           DATE               DEFAULT NULL
   COMMENT '开始时间',
-  `endTime`             DATE             DEFAULT NULL
+  `endTime`             DATE               DEFAULT NULL
   COMMENT '结束时间',
-  `budget`              FLOAT            DEFAULT NULL
+  `budget`              FLOAT              DEFAULT NULL
   COMMENT '投资预算',
-  `type1`               INT(11)          DEFAULT NULL
+  `type1`               INT(11)            DEFAULT NULL
   COMMENT '一级类型',
-  `type2`               INT(11)          DEFAULT NULL
+  `type2`               INT(11)            DEFAULT NULL
   COMMENT '二级类型',
-  `scale`               VARCHAR(500)     DEFAULT NULL
+  `scale`               VARCHAR(500)       DEFAULT NULL
   COMMENT '建设规模',
-  `userId`              INT(11)          DEFAULT NULL
-  COMMENT '申请人id',
-  `areaId`              INT(11)          DEFAULT NULL
-  COMMENT '区县id',
-  `cityId`              INT(11)          DEFAULT NULL
-  COMMENT '市id',
-  `address`             VARCHAR(500)     DEFAULT NULL
+  `username`            VARCHAR(500)       DEFAULT NULL
+  COMMENT '所有人姓名',
+  `contactName`         VARCHAR(500)       DEFAULT NULL
+  COMMENT '联系人姓名',
+  `contactPhone`        VARCHAR(50)        DEFAULT NULL
+  COMMENT '联系人电话',
+  `area`                VARCHAR(500)       DEFAULT NULL
+  COMMENT '区县',
+  `city`                VARCHAR(500)       DEFAULT NULL
+  COMMENT '市',
+  `province`            VARCHAR(500)       DEFAULT NULL
+  COMMENT '省及直辖市',
+  `address`             VARCHAR(500)       DEFAULT NULL
   COMMENT '详细地址',
-  `processId`           INT(11)          DEFAULT NULL
+  `processId`           INT(11)            DEFAULT NULL
   COMMENT '进展阶段',
-  `sourceDepartment`    VARCHAR(500)     DEFAULT NULL
+  `sourceDepartment`    VARCHAR(500)       DEFAULT NULL
   COMMENT '报送部门',
-  `processDiscription`  VARCHAR(500)     DEFAULT NULL
+  `processDiscription`  VARCHAR(500)       DEFAULT NULL
   COMMENT '进展说明',
-  `approvalState`       INT(11)          DEFAULT NULL
+  `approvalState`       INT(11)            DEFAULT NULL
   COMMENT '审核状态',
-  `approvalDiscription` VARCHAR(500)     DEFAULT NULL
-  COMMENT '审核批复'
+  `approvalDiscription` VARCHAR(500)       DEFAULT NULL
+  COMMENT '审核批复',
+  PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-
+INSERT INTO t_project (proname, startTime, endTime, budget, type1, type2, scale, username, contactName, contactPhone, area, city, province, address, processId, sourceDepartment, processDiscription, approvalState, approvalDiscription)
+  VALUE ("哈尔滨市呼兰区老城区第二污水处理厂工程", '2017-01-01', '2018-01-01', 12000, 5, 2, "日处理3万吨污水", 'admin', "李书文", "13654589443", "呼兰区",
+         "哈尔滨市", "黑龙江省", "老城区第二污水处理厂工程", 1, "呼兰区发改局", "已完成土地预审、控详规划手续，正在办理规划选址意见书、环境评估、可研批复、初设批复等相关前期手续.", 0, "允许");
 /*Data for the table `t_project` */
 
 

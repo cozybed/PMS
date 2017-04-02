@@ -9,19 +9,19 @@ import com.common.PageBean;
 @Component//@Service
 public interface UserService {
 	
-	public PageBean createQueryPage(Map param);
+	PageBean createQueryPage(Map param);
 	
-	public String addObject(Object obj);
+	String addObject(Object obj);
 	
-	public Object findObjectById(int id);
+	Object findObjectById(int id);
 	
-	public String updateObject(Object obj);
+	String updateObject(Object obj);
 	
-	public String deleteObject(String id);
+	String deleteObject(String id);
 	
-	public List getRoleForSelect();
-	
-	public String searchYhm(String login_name);
+	List getRoleForSelect();
+
+	String searchYhm(String login_name);
 	
 	
 	

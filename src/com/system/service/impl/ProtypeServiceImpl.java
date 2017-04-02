@@ -14,79 +14,79 @@ import com.system.service.ProtypeService;
 @Component
 public class ProtypeServiceImpl extends BaseDao implements ProtypeService {
 
-	/**
-	 * 项目类型列表
-	 */
-	public PageBean createQueryPage(Map param) {
-		StringBuffer sql = new StringBuffer();
-		sql.append(" select q.*,w.typename pname from t_protype as q left join t_protype w on q.pid=w.id WHERE 1=1 ");
-		if(!param.get("s_type_name").toString().equals("")){
-			sql.append(" AND q.typename LIKE '%" + param.get("s_type_name").toString() + "%' ");
-		}
-		sql.append(" ORDER BY q.pid ASC");
-		List list = getSqlMapClientTemplate().queryForList("getAllProtypes", Util.getPageSqlForMysql(sql.toString(),Integer.parseInt(param.get("pageSize").toString()),Integer.parseInt(param.get("currentPage").toString())));
-		return Util.getPageBean(Integer.parseInt(param.get("pageSize").toString()), Integer.parseInt(param.get("currentPage").toString()), list, param, getSqlMapClientTemplate().queryForList("getAllProtypes", sql.toString()).size());
-	}
-	
-	/**
-	 * 查询一级项目类型
-	 */
-	public List parentProtypes() {
-		StringBuffer sql = new StringBuffer();
-		sql.append(" SELECT T.* FROM t_protype T WHERE isfather = 1 ");
-		List list = getSqlMapClientTemplate().queryForList("parentProtypes",sql.toString());
-		return list;
-	}
+    /**
+     * 项目类型列表
+     */
+    public PageBean createQueryPage(Map param) {
+        StringBuffer sql = new StringBuffer();
+        sql.append(" select q.*,w.typename pname from t_protype as q left join t_protype w on q.pid=w.id WHERE 1=1 ");
+        if (!param.get("s_type_name").toString().equals("")) {
+            sql.append(" AND q.typename LIKE '%" + param.get("s_type_name").toString() + "%' ");
+        }
+        sql.append(" ORDER BY q.pid ASC");
+        List list = getSqlMapClientTemplate().queryForList("getAllProtypes", Util.getPageSqlForMysql(sql.toString(), Integer.parseInt(param.get("pageSize").toString()), Integer.parseInt(param.get("currentPage").toString())));
+        return Util.getPageBean(Integer.parseInt(param.get("pageSize").toString()), Integer.parseInt(param.get("currentPage").toString()), list, param, getSqlMapClientTemplate().queryForList("getAllProtypes", sql.toString()).size());
+    }
 
-	/**
-	 * 添加项目类型
-	 */
-	@Transactional
-	public String addObject(Object obj) {
-		try {
-			getSqlMapClientTemplate().insert("addProtype", obj);
-			System.out.println("add obj ok");
-			return "ok";
+    /**
+     * 查询一级项目类型
+     */
+    public List parentProtypes() {
+        StringBuffer sql = new StringBuffer();
+        sql.append(" SELECT T.* FROM t_protype T WHERE isfather = 1 ");
+        List list = getSqlMapClientTemplate().queryForList("parentProtypes", sql.toString());
+        return list;
+    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "notOk";
-		}
-	}
+    /**
+     * 添加项目类型
+     */
+    @Transactional
+    public String addObject(Object obj) {
+        try {
+            getSqlMapClientTemplate().insert("addProtype", obj);
+            System.out.println("add obj ok");
+            return "ok";
 
-	/**
-	 * 根据ID查询项目类型
-	 */
-	public Object findObjectById(String id) {
-		return getSqlMapClientTemplate().queryForObject("findProtypeById", id);
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "notOk";
+        }
+    }
 
-	/**
-	 * 修改项目类型
-	 */
-	@Transactional
-	public String updateObject(Object obj) {
-		try {
-			getSqlMapClientTemplate().update("updateProtype", obj);
-			return "ok";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "notOk";
-		}
-	}
+    /**
+     * 根据ID查询项目类型
+     */
+    public Object findObjectById(String id) {
+        return getSqlMapClientTemplate().queryForObject("findProtypeById", id);
+    }
 
-	/**
-	 * 删除项目类型
-	 */
-	@Transactional
-	public String deleteObject(String id) {
-		try {
-			getSqlMapClientTemplate().delete("deleteProtype", id);
-			return "ok";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "notOk";
-		}
-	}
-	
+    /**
+     * 修改项目类型
+     */
+    @Transactional
+    public String updateObject(Object obj) {
+        try {
+            getSqlMapClientTemplate().update("updateProtype", obj);
+            return "ok";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "notOk";
+        }
+    }
+
+    /**
+     * 删除项目类型
+     */
+    @Transactional
+    public String deleteObject(String id) {
+        try {
+            getSqlMapClientTemplate().delete("deleteProtype", id);
+            return "ok";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "notOk";
+        }
+    }
+
 }

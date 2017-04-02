@@ -57,10 +57,7 @@ public class UserController {
      */
 
 
-    @RequestMapping(value = "userList2", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView userList(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
-        return new ModelAndView("index");
-    }
+
 
 
     @RequestMapping(value = "userList", method = {RequestMethod.GET, RequestMethod.POST})

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap>
+    <typeAlias alias="Project" type="com.system.vo.Project"></typeAlias>
+    <select id="getAllProjects" resultClass="java.util.HashMap" parameterClass="java.lang.String" remapResults="true">
+        $sql$
+    </select>
+    <insert id="addProject" parameterClass="Project" >
+    INSERT INTO t_project (proname, startTime, endTime, budget, type1, type2, scale, username, contactName, contactPhone, area, city, province, address, processId, sourceDepartment, processDiscription, approvalState, approvalDiscription) VALUES (#proname#,#startTime#, #endTime#, #budget#,#type1#,#type2#,#scale#,#userName#,#contactName#,#contactPhone#,#area#,#city#,#province#,#address#,#processId#,#sourceDepartment#,#processDiscription#,#approvalState#,approvalDiscription)
+    </insert>
+</sqlMap>
