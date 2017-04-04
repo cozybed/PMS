@@ -5,7 +5,7 @@
     <select id="getAllProjects" resultClass="java.util.HashMap" parameterClass="java.lang.String" remapResults="true">
         $sql$
     </select>
-    <insert id="addProject" parameterClass="Project" >
+    <insert id="addProject" parameterClass="Project">
     INSERT INTO t_project (proname, startTime, endTime, budget, type1, type2, scale, username, contactName, contactPhone, area, city, province, address, processId, sourceDepartment, processDiscription, approvalState, approvalDiscription) VALUES (#proname#,#startTime#, #endTime#, #budget#,#type1#,#type2#,#scale#,#username#,#contactName#,#contactPhone#,#area#,#city#,#province#,#address#,#processId#,#sourceDepartment#,#processDiscription#,#approvalState#,#approvalDiscription#)
     </insert>
     <select id="findProjectById" resultClass="Project" parameterClass="java.lang.String">
@@ -17,4 +17,11 @@
     <delete id="deleteProject" parameterClass="java.lang.String">
         DELETE FROM t_project WHERE id=#id#
     </delete>
+    <select id="getAllUnapprovedProject" resultClass="java.util.HashMap" parameterClass="java.lang.String"
+            remapResults="true">
+        SELECT Q.* from t_project Q WHERE Q.approvalState=0
+    </select>
+    <update id="approveProject" parameterClass="java.util.HashMap">
+        update t_project set approvalState=#approvalState#,approvalDiscription=#approvalDiscription# where id=#id#
+    </update>
 </sqlMap>

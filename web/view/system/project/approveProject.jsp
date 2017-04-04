@@ -23,7 +23,7 @@
             if (errorstr.length == 0) {
                 $.ajax({
                     type: "POST",
-                    url: "<%=path%>/project/editProject",
+                    url: "<%=path%>/project/approveProject",
                     data: $("#form1").serialize(),
                     success: function (data) {
                         if (data == "notOk") {
@@ -73,7 +73,8 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label"><span style="color: red">*</span> 项目名称：</label>
                         <div class="col-md-9">
-                            <input type="text" name="proname" id="proname" value="${map.proname }" class="form-control"
+                            <input type="text" name="proname" id="proname" readonly value="${map.proname } "
+                                   class="form-control"
                                    style="width: 40%;"/>
                         </div>
 
@@ -84,16 +85,16 @@
 
                         <label class="col-md-3 control-label"><span style="color: red">*</span> 建设工期：</label>
                         <div class="col-md-9">
-                            <input type="date" name="startTime" id="startTime" value="${map.startTime }"
+                            <input type="date" name="startTime" id="startTime" readonly value="${map.startTime }"
                                    class="form-control" style="width: 40%;"/>至
-                            <input type="date" name="endTime" id="endTime" value="${map.startTime }"
+                            <input type="date" name="endTime" id="endTime" readonly value="${map.startTime }"
                                    class="form-control" style="width: 40%;"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label"><span style="color: red">*</span> 项目所属人：</label>
                         <div class="col-md-9">
-                            <input type="text" name="username" id="username" value="${map.username }"
+                            <input type="text" name="username" id="username" readonly value="${map.username }"
                                    class="form-control"
                                    style="width: 40%;"/>
                         </div>
@@ -101,7 +102,7 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label"><span style="color: red">*</span> 联系人姓名：</label>
                         <div class="col-md-9">
-                            <input type="text" name="contactName" id="contactName" value="${map.contactName }"
+                            <input type="text" name="contactName" id="contactName" readonly value="${map.contactName }"
                                    class="form-control"
                                    style="width: 40%;"/>
                         </div>
@@ -109,7 +110,8 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label"><span style="color: red">*</span> 联系人电话：</label>
                         <div class="col-md-9">
-                            <input type="text" name="contactPhone" id="contactPhone" value="${map.contactPhone }"
+                            <input type="text" name="contactPhone" id="contactPhone" readonly
+                                   value="${map.contactPhone }"
                                    class="form-control"
                                    style="width: 40%;"/>
                         </div>
@@ -117,7 +119,8 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label"><span style="color: red">*</span> 建设规模：</label>
                         <div class="col-md-9">
-                            <input type="text" name="scale" id="scale" value="${map.scale }" class="form-control"
+                            <input type="text" name="scale" id="scale" readonly value="${map.scale }"
+                                   class="form-control"
                                    style="width: 40%;"/>
                         </div>
                     </div>
@@ -125,7 +128,7 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label"><span style="color: red">*</span> 总投资（万元）：</label>
                         <div class="col-md-9">
-                            <input type="text" name="budget" id="budget"
+                            <input type="text" name="budget" id="budget" readonly
                                    value="${map.budget}" class="form-control"
                                    style="width: 40%;"/>
                         </div>
@@ -135,7 +138,8 @@
                         <label class="col-md-3 control-label"><span style="color: red">*</span> 所属类型：</label>
                         <div class="col-md-9">
                             一级类型：
-                            <select class="form-control" style="width: 30%;" id="type1" name="type1">
+                            <select class="form-control" style="width: 30%;" id="type1" disabled="disabled"
+                                    name="type1">
                                 <option value="0">请选择一级类型</option>
                                 <c:forEach items="${protypes}" var="pp">
                                     <c:if test="${pp.isfather eq '1'}">
@@ -146,7 +150,7 @@
                                 </c:forEach>
                             </select>
                             二级类型：
-                            <select class="form-control" style="width: 30%;" id="type2"
+                            <select class="form-control" style="width: 30%;" id="type2" disabled="disabled"
                                     name="type2">
                                 <option value="0" id="default_type2">请选择二级类型</option>
                                 <c:forEach items="${protypes}" var="pp">
@@ -164,13 +168,13 @@
                         <label class="col-md-3 control-label"><span style="color: red">*</span> 建设地址：</label>
                         <div class="col-md-9">
                             省及直辖市
-                            <select id="province" class="province form-control" name="province"></select>
+                            <select id="province" disabled="disabled" class="province form-control" name="province"></select>
                             市
-                            <select id="city" class="city form-control" name="city"></select>
+                            <select id="city" disabled="disabled" class="city form-control" name="city"></select>
                             区
-                            <select id="area" class="area form-control" name="area"></select>
+                            <select id="area" disabled="disabled" class="area form-control" name="area"></select>
                             详细地址
-                            <input type="text" name="address" id="address" value="${map.address }"
+                            <input type="text" name="address" id="address" readonly value="${map.address }"
                                    class="form-control" style="width: 40%;"/>
 
 
@@ -181,7 +185,7 @@
 
                         <div class="col-md-9">
                             项目进展阶段
-                            <select class="form-control" style="width: 50%;" id="processId" name="processId">
+                            <select class="form-control" style="width: 50%;" id="processId" disabled="disabled" name="processId">
                                 <option value="0">请选择项目进展阶段</option>
                                 <c:forEach items="${process}" var="pp">
                                     <option value="${pp.id}"
@@ -191,8 +195,8 @@
                                 </c:forEach>
                             </select>
                             项目进展情况
-                            <input name="processDiscription" id="processDiscription" class="form-control"
-                                      rows="5">${map.processDiscription }
+                            <input name="processDiscription" id="processDiscription" readonly class="form-control"
+                                rows="5">${map.processDiscription }
                             </input>
                         </div>
 
@@ -200,16 +204,29 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label"><span style="color: red">*</span> 报送部门：</label>
                         <div class="col-md-9">
-                            <input type="text" name="sourceDepartment" id="sourceDepartment"
+                            <input type="text" name="sourceDepartment" id="sourceDepartment" readonly
                                    value="${map.sourceDepartment }"
                                     <c:if test="${map!=null }"></c:if> class="form-control" style="width: 40%;"/>
                         </div>
                     </div>
-                    <%--项目进展情况--%>
-                    <%--<div class="col-md-9">--%>
-                    <%--<textarea name="processDiscription" id="processDiscription" class="form-control"--%>
-                    <%--rows="5">${map.processDiscription }</textarea>--%>
-                    <%--</div>--%>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"><span style="color: red">*</span> 审批状态：</label>
+                        <div class="col-md-9">
+                            <select name="approvalState" id="approvalState">
+                                <option value="0">未审批</option>
+                                <option value="1">通过审批</option>
+                                <option value="2">审批未通过</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"><span style="color: red">*</span> 审批情况：</label>
+                        <div class="col-md-9">
+                            <input type="text" name="approvalDiscription" id="approvalDiscription"
+                                   class="form-control" style="width: 40%;"/>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="form-group">

@@ -54,9 +54,9 @@ public class ProjectController {
         Map param = new HashMap();
         param.put("pageSize", pageSize);
         param.put("currentPage", currentPage);
-        param.put("budget_min",budget_min);
-        param.put("budget_max",budget_max);
-        param.put("project",project);
+        param.put("budget_min", budget_min);
+        param.put("budget_max", budget_max);
+        param.put("project", project);
         System.out.println(project.toString());
         System.out.println(budget_max);
         System.out.println(budget_min);
@@ -66,6 +66,47 @@ public class ProjectController {
         return "system/project/showProject";
     }
 
+    /**
+     * 状态0未审批
+     * 状态1审批通过
+     * 状态2未通过
+     *
+     * @param modelMap
+     * @param request
+     * @param response
+     * @param currentPage
+     * @param pageSize
+     * @param budget_min
+     * @param budget_max
+     * @param project
+     * @return
+     */
+    @RequestMapping(value = "approvalProjectList", method = {RequestMethod.GET, RequestMethod.POST})
+    public String approvalProjectList(
+            ModelMap modelMap, HttpServletRequest request,
+            HttpServletResponse response,
+            @RequestParam(value = "currentPage", defaultValue = "1") String currentPage,
+            @RequestParam(value = "pageSize", defaultValue = "20") String pageSize,
+            @RequestParam(value = "budget_min", required = false) Float budget_min,
+            @RequestParam(value = "budget_max", required = false) Float budget_max,
+            Project project
+    ) {
+        Map param = new HashMap();
+        param.put("pageSize", pageSize);
+        param.put("currentPage", currentPage);
+        param.put("budget_min", budget_min);
+        param.put("budget_max", budget_max);
+        param.put("project", project);
+        param.put("approveProject", 1);
+        System.out.println(project.toString());
+        System.out.println(budget_max);
+        System.out.println(budget_min);
+        PageBean pageBean = projectService.createQueryPage(param);
+        System.out.println(pageBean.getList().size());
+        modelMap.put("pageBean", pageBean);
+        return "system/project/projectToApprovelList";
+    }
+
     @RequestMapping(value = "toAddProject", method = {RequestMethod.GET, RequestMethod.POST})
     public String toAddProject(
             HttpServletRequest request
@@ -73,15 +114,44 @@ public class ProjectController {
 
         return "system/project/add";
     }
+
     @RequestMapping(value = "toUpdateProject", method = {RequestMethod.GET, RequestMethod.POST})
     public String toUpdateProject(
             HttpServletRequest request,
-            @RequestParam(value = "id")String id
+            @RequestParam(value = "id") String id
     ) {
-        Project project= (Project) projectService.findObjectByid(id);
-        request.setAttribute("map",project);
+        Project project = (Project) projectService.findObjectByid(id);
+        request.setAttribute("map", project);
         return "system/project/add";
     }
+
+    @RequestMapping(value = "toApproveProject", method = {RequestMethod.GET, RequestMethod.POST})
+    public String approveProject(
+            HttpServletRequest request,
+            @RequestParam(value = "id") String id
+    ) {
+        Project project = (Project) projectService.findObjectByid(id);
+        request.setAttribute("map", project);
+        return "system/project/approveProject";
+    }
+
+    @RequestMapping(value = "approveProject", method = {RequestMethod.GET, RequestMethod.POST})
+    public void approveProject(
+            HttpServletResponse response,
+            @RequestParam(value = "approvalState") String approvalState,
+            @RequestParam(value = "approvalDiscription") String approvalDiscription,
+            @RequestParam(value = "id") String id
+
+    ) throws IOException {
+
+        Map map = new HashMap();
+        map.put("approvalState", approvalState);
+        map.put("approvalDiscription", approvalDiscription);
+        map.put("id",id);
+        response.getWriter().print(projectService.approveProject(map));
+
+    }
+
     @RequestMapping(value = "editProject", method = {RequestMethod.GET, RequestMethod.POST})
     public void editProject(
             HttpServletResponse response,
@@ -108,8 +178,9 @@ public class ProjectController {
         String status = "ok";
         if (delCheckBox.length > 0) {
             for (String id : delCheckBox) {
-                if (projectService.deleteObject("" + id)=="notOk"){
-                status = "notOk";}
+                if (projectService.deleteObject("" + id) == "notOk") {
+                    status = "notOk";
+                }
             }
         }
         PrintWriter writer = response.getWriter();

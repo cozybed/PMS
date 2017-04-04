@@ -17,5 +17,7 @@ public interface ProjectService {
     Object findObjectByid(String id);
 
     String deleteObject(String id);
+
+    String approveProject(Map map);
 }
 

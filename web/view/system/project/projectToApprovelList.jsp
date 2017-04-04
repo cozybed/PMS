@@ -70,7 +70,7 @@
     </script>
 </head>
 <body>
-<form action="<%=path%>/project/projectList" method="post" id="form1" name="form1">
+<form action="<%=path%>/project/approvalProjectList" method="post" id="form1" name="form1">
     <input type="hidden" id="currentPage" name="currentPage" value="1"/>
     <!-- begin breadcrumb -->
 
@@ -193,7 +193,7 @@
                                 <c:set var="view" value="0"/>
                                 <c:set var="update" value="0"/>
                                 <c:forEach items="${menulist }" var="q">
-                                    <c:if test="${fn:containsIgnoreCase(q.menuurl, '/project/projectList')}">
+                                    <c:if test="${fn:containsIgnoreCase(q.menuurl, '/project/approvalProjectList')}">
                                         <c:forEach items="${mymenulist }" var="e">
 
                                             <%--<c:out value="${q.id}"></c:out>--%>
@@ -358,7 +358,7 @@
                                                     ${v.approvalDiscription }
                                             </td>
                                             <td>
-                                                <a href="<%=path %>/project/toUpdateProject?id=${v.id }"><i
+                                                <a href="<%=path %>/project/toApproveProject?id=${v.id }"><i
                                                         class="fa fa-edit"></i></a>
                                                 <!-- <a href="<%=path %>/role/toViewRole?ROLE_ID=${v.ROLE_ID }"><i class="fa fa-arrow-circle-o-right"></i></a>&nbsp;&nbsp;&nbsp;&nbsp; -->
 
@@ -414,9 +414,7 @@
                         </c:if>
 
 
-                        <jsp:include page="/view/common/page.jsp">
-                            <jsp:param name="formId" value="form1"/>
-                        </jsp:include>
+
 
 
                     </div>

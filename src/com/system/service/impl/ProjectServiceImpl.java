@@ -23,7 +23,11 @@ public class ProjectServiceImpl extends BaseDao implements ProjectService {
 //            sql.append(" and q.username like '%" + param.get("username").toString() + "%' ");uckjnme
 //
 //        }
-        sql.append("   order by q.id DESC");
+                if (param.get("approveProject")!=null) {
+            sql.append(" and q.approvalState = 0");
+
+        }
+        sql.append("   order by q.id desc");
 
         List list = getSqlMapClientTemplate().queryForList("getAllUsers",
                 Util.getPageSqlForMysql(
@@ -34,12 +38,13 @@ public class ProjectServiceImpl extends BaseDao implements ProjectService {
                 )
 
         );
+
         return Util.getPageBean(
                 Integer.parseInt(param.get("pageSize").toString()),
                 Integer.parseInt(param.get("currentPage").toString()),
                 list,
                 param,
-                (int)getSqlMapClientTemplate().queryForObject("numberOfEntries","select count(*) from t_project")
+                (int)getSqlMapClientTemplate().queryForObject("numberOfEntries","select count(*) from t_project q where q.approvalState=0")
         );
     }
 
@@ -57,7 +62,7 @@ public class ProjectServiceImpl extends BaseDao implements ProjectService {
     @Override
     public String updateObject(Object obj) {
         try {
-            getSqlMapClientTemplate().insert("updateProject", obj);
+            getSqlMapClientTemplate().update("updateProject", obj);
             return "ok";
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,6 +81,18 @@ public class ProjectServiceImpl extends BaseDao implements ProjectService {
             getSqlMapClientTemplate().delete("deleteProject", id);
             return "ok";
         } catch (Exception e) {
+            e.printStackTrace();
+            return "notOk";
+        }
+    }
+
+    @Override
+    public String approveProject(Map map) {
+        try {
+            getSqlMapClientTemplate().update("approveProject",map);
+            return "ok";
+
+        }catch (Exception e){
             e.printStackTrace();
             return "notOk";
         }

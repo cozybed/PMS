@@ -255,6 +255,10 @@ INSERT INTO t_role(rolename) VALUE ("123");
 INSERT INTO t_role(rolename) VALUE ("123");
 INSERT INTO t_role(rolename) VALUE ("123");
 SELECT count(id) FROM t_project;
+SELECT Q.* from t_project Q WHERE Q.approvalState=0;
+select q.* from t_role q where 1=1  and q.rolename like '%技术%';
+select q.* from t_role q where 1=1  and q.rolename like '%技术%';
+update t_project set approvalState=0 WHERE id=26;
 /*!40101
 SET SQL_MODE = @OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS */;
