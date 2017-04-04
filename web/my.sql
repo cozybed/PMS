@@ -244,9 +244,19 @@ INSERT INTO t_project (proname, startTime, endTime, budget, type1, type2, scale,
   VALUE ("哈尔滨市呼兰区老城区第二污水处理厂工程", '2017-01-01', '2018-01-01', 12000, 5, 2, "日处理3万吨污水", 'admin', "李书文", "13654589443", "呼兰区",
          "哈尔滨市", "黑龙江省", "老城区第二污水处理厂工程", 1, "呼兰区发改局", "已完成土地预审、控详规划手续，正在办理规划选址意见书、环境评估、可研批复、初设批复等相关前期手续.", 0, "允许");
 /*Data for the table `t_project` */
-
-
-/*!40101 SET SQL_MODE = @OLD_SQL_MODE */;
+select q.* ,w.typename from t_project q LEFT JOIN t_protype w on q.type1=w.id where 1=1;
+INSERT INTO t_role(rolename) VALUE ("123");
+INSERT INTO t_role(rolename) VALUE ("123");
+INSERT INTO t_role(rolename) VALUE ("123");
+INSERT INTO t_role(rolename) VALUE ("123");INSERT INTO t_role(rolename) VALUE ("123");
+INSERT INTO t_role(rolename) VALUE ("123");
+INSERT INTO t_role(rolename) VALUE ("123");
+INSERT INTO t_role(rolename) VALUE ("123");
+INSERT INTO t_role(rolename) VALUE ("123");
+INSERT INTO t_role(rolename) VALUE ("123");
+SELECT count(id) FROM t_project;
+/*!40101
+SET SQL_MODE = @OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;

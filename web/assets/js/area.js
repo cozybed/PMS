@@ -390,32 +390,49 @@ function deployArea() {
         $.each(_a_all, function (index, value) {
             $('#area').append('<option value=' + value + '>' + value + '</option>');
         });
+        $('#area').append('<option value=所有地区>所有地区</option>');
     }
 }
 
 $.each(_p, function (index, value) {
     // console.log(value);
     $('#province').append('<option value=' + value + '>' + value + '</option>');
-    var def_province = $('#province option:selected').val();
-    var def_city = _c[def_province];
-    $('#city').empty();
-    $.each(def_city, function (index, value) {
-        $('#city').append('<option value=' + value + '>' + value + '</option>');
-    });
-    deployArea();
 });
+var def_province = $('#province option:selected').val();
+var def_city = _c[def_province];
+$('#city').empty();
+$.each(def_city, function (index, value) {
+    $('#city').append('<option value=' + value + '>' + value + '</option>');
+});
+deployArea();
+$('#province').append('<option value="所有省份">所有省份</option>');
+$('#city').append('<option value="所有城市">所有城市</option>');
 $('#province').change(function () {
     var str = $('#province option:selected').val();
     // console.log(str);
-    var _c_a = _c[str];
-    // console.log(_c_a);
     $('#city').empty();
     $('#area').empty();
+    if (str == '所有省份') {
+        $('#city').append('<option value="所有城市">所有城市</option>');
+        $('#area').append('<option value=所有地区>所有地区</option>');
+        return;
+    }
+    var _c_a = _c[str];
+    // console.log(_c_a);
+
     $.each(_c_a, function (index, value) {
         $('#city').append('<option value=' + value + '>' + value + '</option>');
     });
+    $('#city').append('<option value="所有城市">所有城市</option>');
     deployArea();
 });
 $('#city').change(function () {
+    var str = $('#city option:selected').val();
+    if (str == '所有城市') {
+        $('#area').empty();
+        $('#area').append('<option value=所有地区>所有地区</option>');
+
+        return;
+    }
     deployArea();
 });

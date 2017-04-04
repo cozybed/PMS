@@ -25,7 +25,13 @@ public class ProtypeServiceImpl extends BaseDao implements ProtypeService {
         }
         sql.append(" ORDER BY q.pid ASC");
         List list = getSqlMapClientTemplate().queryForList("getAllProtypes", Util.getPageSqlForMysql(sql.toString(), Integer.parseInt(param.get("pageSize").toString()), Integer.parseInt(param.get("currentPage").toString())));
-        return Util.getPageBean(Integer.parseInt(param.get("pageSize").toString()), Integer.parseInt(param.get("currentPage").toString()), list, param, getSqlMapClientTemplate().queryForList("getAllProtypes", sql.toString()).size());
+        return Util.getPageBean(
+                Integer.parseInt(param.get("pageSize").toString()),
+                Integer.parseInt(param.get("currentPage").toString()),
+                list,
+                param,
+                (int)getSqlMapClientTemplate().queryForObject("numberOfEntries","select count(*) from t_protype")
+        );
     }
 
     /**
@@ -34,6 +40,14 @@ public class ProtypeServiceImpl extends BaseDao implements ProtypeService {
     public List parentProtypes() {
         StringBuffer sql = new StringBuffer();
         sql.append(" SELECT T.* FROM t_protype T WHERE isfather = 1 ");
+        List list = getSqlMapClientTemplate().queryForList("parentProtypes", sql.toString());
+        return list;
+    }
+
+    @Override
+    public List getAllTypes() {
+        StringBuffer sql = new StringBuffer();
+        sql.append(" SELECT * FROM t_protype");
         List list = getSqlMapClientTemplate().queryForList("parentProtypes", sql.toString());
         return list;
     }

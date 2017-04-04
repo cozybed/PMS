@@ -39,12 +39,13 @@ public class RoleServiceImpl extends BaseDao implements com.system.service.RoleS
                         )
                 )
         );
+        System.out.println(getSqlMapClientTemplate().queryForObject("numberOfEntries","select count(*) from t_project"));
         return Util.getPageBean(
                 Integer.parseInt(param.get("pageSize").toString()),
                 Integer.parseInt(param.get("currentPage").toString()),
                 list,
                 param,
-                list.size()
+                (int)getSqlMapClientTemplate().queryForObject("numberOfEntries","select count(*) from t_role")
         );
     }
 
@@ -263,6 +264,14 @@ public class RoleServiceImpl extends BaseDao implements com.system.service.RoleS
             roleMap.put("MENU_ID", MENU_ID);
             getSqlMapClientTemplate().insert("inserRoleMenus", roleMap);
         }
+    }
+
+    @Override
+    public List getAllProcess() {
+        StringBuffer sql = new StringBuffer();
+        sql.append(" SELECT * FROM t_process");
+        List list = getSqlMapClientTemplate().queryForList("parentProtypes", sql.toString());
+        return list;
     }
 
 }

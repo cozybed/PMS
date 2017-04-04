@@ -43,7 +43,8 @@ public interface RoleService {
 
     List getRoleMenuList(String roleId);
 
-    public void editRoleMenu(String ids, String role_id) throws Exception;
+    void editRoleMenu(String ids, String role_id) throws Exception;
+    List getAllProcess();
 
 
 }

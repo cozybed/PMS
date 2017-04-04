@@ -121,15 +121,18 @@ public class ProtypeController {
             HttpServletResponse response,
             @RequestParam(value = "delCheckBox", defaultValue = "") String[] delCheckBox)
             throws Exception {
-        String staus = "";
+        String status = "ok";
         if (delCheckBox.length > 0) {
             for (String id : delCheckBox) {
-                protypeService.deleteObject("" + id);
-                staus = "ok";
+                if (protypeService.deleteObject("" + id) == "notOk") {
+                    status = "notOk";
+                }
+
+
             }
         }
         PrintWriter pw = response.getWriter();
-        pw.write(staus);
+        pw.write(status);
         pw.flush();
 
     }

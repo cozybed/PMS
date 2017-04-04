@@ -19,6 +19,7 @@
 
 <%
 PageBean pageBean=(PageBean)request.getAttribute("pageBean");
+System.out.println(pageBean.getList().size());
 %>
 function gotoPage(currentPage){
 	var formId="<%=request.getParameter("formId")%>";

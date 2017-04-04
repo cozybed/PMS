@@ -14,4 +14,8 @@ public interface ProjectService {
 
     String updateObject(Object obj);
 
+    Object findObjectByid(String id);
+
+    String deleteObject(String id);
 }
+

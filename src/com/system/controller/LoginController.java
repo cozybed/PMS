@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.system.service.ProtypeService;
+import com.system.service.RoleService;
 import com.system.service.impl.LoginServiceImpl;
+import com.system.vo.Protype;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -27,7 +30,10 @@ import com.system.vo.User;
 public class LoginController {
 	@Autowired
 	private LoginService loginService;
-
+	@Autowired
+	private RoleService roleService;
+	@Autowired
+	private ProtypeService protypeService;
 	/*
 	 * 用户登录
 	 */
@@ -53,6 +59,8 @@ public class LoginController {
 				User user = loginService.login(username, userpass);
 				request.getSession().removeAttribute("user");
 				request.getSession().setAttribute("user", user);
+				request.getSession().setAttribute("process",roleService.getAllProcess());
+				request.getSession().setAttribute("protypes",protypeService.getAllTypes());
 				pw.write("y");
 			}
 		}

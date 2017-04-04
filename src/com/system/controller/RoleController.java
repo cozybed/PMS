@@ -272,12 +272,13 @@ public class RoleController {
      * @return
      */
     @RequestMapping(value = "processList", method = {RequestMethod.GET, RequestMethod.POST})
-    public String processList(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "s_role_name", defaultValue = "")
-            String s_role_name, @RequestParam(value = "currentPage", defaultValue = "1")
-                                      String currentPage, @RequestParam(value = "pageSize", defaultValue = "20")
-                                      String pageSize, @RequestParam(value = "value", defaultValue = "")
-                                      String value, @RequestParam(value = "value", defaultValue = "")
-                                      String[] values) {
+    public String processList(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response,
+                              @RequestParam(value = "s_role_name", defaultValue = "") String s_role_name,
+                              @RequestParam(value = "currentPage", defaultValue = "1") String currentPage,
+                              @RequestParam(value = "pageSize", defaultValue = "20") String pageSize,
+                              @RequestParam(value = "value", defaultValue = "") String value,
+                              @RequestParam(value = "value", defaultValue = "") String[] values
+    ) {
 
         Map param = new HashMap();
         param.put("pageSize", pageSize);

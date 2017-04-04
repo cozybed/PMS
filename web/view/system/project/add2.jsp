@@ -78,7 +78,14 @@
                         </div>
 
                     </div>
-
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"><span style="color: red">*</span> 报送部门：</label>
+                        <div class="col-md-9">
+                            <input type="text" name="sourceDepartment" id="sourceDepartment"
+                                   value="${map.sourceDepartment }"
+                                   <c:if test="${map!=null }"></c:if> class="form-control" style="width: 40%;"/>
+                        </div>
+                    </div>
 
                     <div class="form-group">
 
@@ -193,14 +200,6 @@
                             项目进展情况
                             <textarea name="processDiscription" id="processDiscription" class="form-control"
                                       rows="5">${map.processDiscription }</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label"><span style="color: red">*</span> 报送部门：</label>
-                            <div class="col-md-9">
-                                <input type="text" name="sourceDepartment" id="sourceDepartment"
-                                       value="${map.sourceDepartment }"
-                                        <c:if test="${map!=null }"></c:if> class="form-control" style="width: 40%;"/>
-                            </div>
                         </div>
                         <%--项目进展情况--%>
                         <%--<div class="col-md-9">--%>

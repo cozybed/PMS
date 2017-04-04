@@ -1,7 +1,5 @@
 package com.system.vo;
 
-import java.util.Date;
-
 public class Project {
     private int id;//int(11)项目id
     private String proname;//varchar(500)项目名称
@@ -11,7 +9,7 @@ public class Project {
     private int type1;//一级类型
     private int type2;//二级类型
     private String scale;//建设规模
-    private String userName;//所有人姓名
+    private String username;//所有人姓名
     private String contactName;
     private String contactPhone;
     private String area;
@@ -45,7 +43,13 @@ public class Project {
     }
 
     public void setStartTime(String startTime) {
-        this.startTime = startTime;
+        if (startTime == "") {
+            this.startTime = "1000-01-01";
+            return;
+        } else {
+            this.startTime = startTime;
+        }
+
     }
 
     public String getEndTime() {
@@ -53,15 +57,24 @@ public class Project {
     }
 
     public void setEndTime(String endTime) {
-        this.endTime = endTime;
+        if (endTime == "") {
+            this.endTime = "1000-01-01";
+        } else {
+            this.endTime = endTime;
+        }
     }
 
     public float getBudget() {
         return budget;
     }
 
-    public void setBudget(float budget) {
-        this.budget = budget;
+    public void setBudget(String budget) {
+        if (budget == "") {
+            this.budget = 0;
+        } else {
+            this.budget = Float.parseFloat(budget);
+        }
+
     }
 
     public int getType1() {
@@ -88,12 +101,12 @@ public class Project {
         this.scale = scale;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getContactName() {
@@ -148,8 +161,14 @@ public class Project {
         return processId;
     }
 
-    public void setProcessId(int processId) {
-        this.processId = processId;
+    public void setProcessId(String processId) {
+        if (processId == "") {
+            this.processId = 0;
+            return;
+        } else {
+            this.processId = Integer.parseInt(processId);
+        }
+
     }
 
     public String getSourceDepartment() {
@@ -172,11 +191,16 @@ public class Project {
         return approvalState;
     }
 
-    public void setApprovalState(int approvalState) {
-        this.approvalState = approvalState;
+    public void setApprovalState(String approvalState) {
+        if (approvalState == "") {
+            this.approvalState = 0;
+            return;
+        }
+        this.approvalState = Integer.parseInt(approvalState);
     }
 
     public String getApprovalDiscription() {
+
         return approvalDiscription;
     }
 
@@ -184,4 +208,11 @@ public class Project {
         this.approvalDiscription = approvalDiscription;
     }
 
+    public String toString() {
+        return "project:" + "id," + id + ";" + "proname," + proname + ";" + "startTime," + startTime + ";" + "endTime," + endTime + ";" + "budget," + budget + ";" + "type1," + type1 + ";" + "type2," + type2 + ";" + "scale," + scale + ";" + "username," + username + ";" + "contactName," + contactName + ";" + "contactPhone," + contactPhone + ";" + "area," + area + ";" + "city," + city + ";" + "province," + province + ";" + "address," + address + ";" + "processId," + processId + ";" + "sourceDepartment," + sourceDepartment + ";" + "processDiscription," + processDiscription + ";" + "approvalState," + approvalState + ";" + "approvalDiscription," + approvalDiscription + ";";
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Integer.parseInt(""));
+    }
 }

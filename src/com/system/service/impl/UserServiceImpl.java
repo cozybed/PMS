@@ -40,7 +40,8 @@ public class UserServiceImpl extends BaseDao implements com.system.service.UserS
                 Integer.parseInt(param.get("currentPage").toString()),
                 list,
                 param,
-                list.size());
+                (int)getSqlMapClientTemplate().queryForObject("numberOfEntries","select count(*) from t_user")
+        );
     }
 
     public String addObject(Object obj) {

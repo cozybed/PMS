@@ -12,6 +12,7 @@ public interface ProtypeService {
     PageBean createQueryPage(Map param);
 
     List parentProtypes();
+    List getAllTypes();
 
     String addObject(Object obj);
 

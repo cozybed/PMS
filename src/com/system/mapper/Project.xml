@@ -6,6 +6,15 @@
         $sql$
     </select>
     <insert id="addProject" parameterClass="Project" >
-    INSERT INTO t_project (proname, startTime, endTime, budget, type1, type2, scale, username, contactName, contactPhone, area, city, province, address, processId, sourceDepartment, processDiscription, approvalState, approvalDiscription) VALUES (#proname#,#startTime#, #endTime#, #budget#,#type1#,#type2#,#scale#,#userName#,#contactName#,#contactPhone#,#area#,#city#,#province#,#address#,#processId#,#sourceDepartment#,#processDiscription#,#approvalState#,approvalDiscription)
+    INSERT INTO t_project (proname, startTime, endTime, budget, type1, type2, scale, username, contactName, contactPhone, area, city, province, address, processId, sourceDepartment, processDiscription, approvalState, approvalDiscription) VALUES (#proname#,#startTime#, #endTime#, #budget#,#type1#,#type2#,#scale#,#username#,#contactName#,#contactPhone#,#area#,#city#,#province#,#address#,#processId#,#sourceDepartment#,#processDiscription#,#approvalState#,#approvalDiscription#)
     </insert>
+    <select id="findProjectById" resultClass="Project" parameterClass="java.lang.String">
+        SELECT Q.* FROM t_project Q WHERE Q.id=#id#
+    </select>
+    <update id="updateProject" parameterClass="Project">
+        update t_project set proname=#proname#,startTime=#startTime#, endTime=#endTime#, budget=#budget#,type1=#type1#,type2=#type2#,scale=#scale#,username=#username#,contactName=#contactName#,contactPhone=#contactPhone#,area=#area#,city=#city#,province=#province#,address=#address#,processId=#processId#,sourceDepartment=#sourceDepartment#,processDiscription=#processDiscription#,approvalState=#approvalState#,approvalDiscription=#approvalDiscription# where id=#id#
+    </update>
+    <delete id="deleteProject" parameterClass="java.lang.String">
+        DELETE FROM t_project WHERE id=#id#
+    </delete>
 </sqlMap>
