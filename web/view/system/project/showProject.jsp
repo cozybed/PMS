@@ -17,18 +17,8 @@
             }
         });
         function expByCheckBox() {
-            $.ajax({
-                type: "POST",
-                url: "<%=path%>/role/exportRole",
-                data: $('#form1').serialize(),
-                success: function (data) {
-                    console.log($('#form1').serialize());
-                    if (data == "notOk") {
-                        alert("系统错误，请联系管理员!");
-                    }
-                    location = location;
-                }
-            });
+            $('#form1').attr('action','project/exportProjects').submit()
+            $('#form1').attr('action','project/projectList')
         }
         function expNoData() {
             $.ajax({
@@ -43,17 +33,10 @@
             });
         }
         function impByCheckBox() {
-            $.ajax({
-                type: "POST",
-                url: "<%=path%>/role/importRole",
-                success: function (data) {
-                    if (data == "notOk") {
-                        alert("系统错误，请联系管理员!");
-                    }
-                    location = location;
-                }
-            });
+            $('#inputFile').click();
         }
+
+
         function delByCheckBox() {
             $.ajax({
                 type: "POST",
@@ -70,6 +53,9 @@
     </script>
 </head>
 <body>
+<form class="hidden" action="<%=path%>/project/importProjects" method="post" id="imForm" name="imForm" enctype="multipart/form-data">
+    <input type="file" name="file" id="inputFile" onchange="$('#imForm').submit()">
+</form>
 <form action="<%=path%>/project/projectList" method="post" id="form1" name="form1">
     <input type="hidden" id="currentPage" name="currentPage" value="1"/>
     <!-- begin breadcrumb -->
@@ -88,7 +74,7 @@
                 <div class="panel-heading">
 
                     <h4 class="panel-title">
-                        角色管理
+                        项目查询
                     </h4>
                 </div>
                 <div class="panel-body">
@@ -98,23 +84,27 @@
                         <div class="form-group">
                             <label>
                                 项目名称：<input name="proname" id="proname"
-                                            value="${pageBean.paramMap.proname }" type="text" class=""
+                                            value="${pageBean.paramMap.project.proname }" type="text" class=""
                                             placeholder="" aria-controls="data-table"/>
-                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp开始时间：<input name="startTime" id="startTime"
-                                                                                    value="${pageBean.paramMap.startTime }"
-                                                                                    type="date" class=""
-                                                                                    placeholder=""
-                                                                                    aria-controls="data-table"/>
+
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp开始时间<c:if
+                                    test="${!(pageBean.paramMap.project.startTime=='1000-01-01')}">${pageBean.paramMap.project.startTime}</c:if>：<input
+                                    name="startTime" id="startTime"
+
+                                    value="<c:if test="${!(pageBean.paramMap.project.startTime=='1000-01-01')}">${pageBean.paramMap.project.startTime}</c:if>"
+                                    type="date" class=""
+                                    placeholder=""
+                                    aria-controls="data-table"/>
 
 
                                 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp结束时间：<input name="endTime" id="endTime"
-                                                                                    value="${pageBean.paramMap.endTime }"
+                                                                                    value="<c:if test="${!(pageBean.paramMap.project.endTime=='1000-01-01')}">${pageBean.paramMap.project.endTime}</c:if>"
                                                                                     type="date" class=""
                                                                                     placeholder=""
                                                                                     aria-controls="data-table"/>
                                 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp预算范围：<input name="budget_min" id="budget_min"
                                                                                     value="${pageBean.paramMap.budget_min }"
-                                                                                    type="text" class=""
+                                                                                     type="text" class=""
                                                                                     placeholder=""
                                                                                     aria-controls="data-table"/>
                                 -<input name="budget_max" id="budget_max"
@@ -126,7 +116,7 @@
                                 <c:forEach items="${protypes}" var="pp">
                                     <c:if test="${pp.isfather eq '1'}">
                                         <option value="${pp.id}"
-                                                <c:if test="${pp.id eq map.type1}">selected</c:if>>${pp.typename}</option>
+                                                <c:if test="${pp.id eq pageBean.paramMap.project.type1}">selected</c:if>>${pp.typename}</option>
                                     </c:if>
 
                                 </c:forEach>
@@ -137,19 +127,19 @@
                                 <c:forEach items="${protypes}" var="pp">
                                     <c:if test="${pp.isfather eq '2'}">
                                         <option value="${pp.id}"
-                                                <c:if test="${pp.id eq map.type2}">selected</c:if>
+                                                <c:if test="${pp.id eq pageBean.paramMap.project.type2}">selected</c:if>
                                                 class="${pp.pid} type2">${pp.typename}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
                                 <hr>
                                 所属人名字：<input name="username" id="username"
-                                             value="${pageBean.paramMap.username }"
+                                             value="${pageBean.paramMap.project.username }"
                                              type="text" class=""
                                              placeholder=""
                                              aria-controls="data-table"/>
                                 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp联系人姓名：<input name="contactName" id="contactName"
-                                                                                     value="${pageBean.paramMap.contactName }"
+                                                                                     value="${pageBean.paramMap.project.contactName }"
                                                                                      type="text" class=""
                                                                                      placeholder=""
                                                                                      aria-controls="data-table"/>
@@ -163,26 +153,36 @@
                                 进程阶段:<select class="form-"
                                              style="width:auto;" id="processId"
                                              name="processId">
-                                <option value="">请选择项目进展阶段</option>
+                                <option value="0">请选择项目进展阶段</option>
                                 <c:forEach items="${process}" var="pp">
                                     <option value="${pp.id}"
-                                            <c:if test="${pp.pname eq map.pname}">selected</c:if>>
+                                            <c:if test="${pp.id == pageBean.paramMap.project.processId}">selected</c:if>>
                                             ${pp.pname}
                                     </option>
                                 </c:forEach>
                             </select>
                                 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp项目来源部门：<input name="sourceDepartment"
                                                                                       id="sourceDepartment"
-                                                                                      value="${pageBean.paramMap.sourceDepartment }"
+                                                                                      value="${pageBean.paramMap.project.sourceDepartment }"
                                                                                       type="text" class=""
                                                                                       placeholder=""
                                                                                       aria-controls="data-table"/>
-                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp审核状态：<input name="approvalState"
-                                                                                    id="approvalState"
-                                                                                    value="${pageBean.paramMap.approvalState }"
-                                                                                    type="text" class=""
-                                                                                    placeholder=""
-                                                                                    aria-controls="data-table"/>
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp审核状态：<select name="approvalState"
+                                                                                     id="approvalState">
+                                <option value="100"
+                                        <c:if test="${pageBean.paramMap.project.approvalState==100}">selected</c:if>>
+                                    请选择审批状态
+                                </option>
+                                <option value="0"
+                                        <c:if test="${pageBean.paramMap.project.approvalState==0}">selected</c:if>>未审批
+                                </option>
+                                <option value="1"
+                                        <c:if test="${pageBean.paramMap.project.approvalState==1}">selected</c:if>>通过审批
+                                </option>
+                                <option value="2"
+                                        <c:if test="${pageBean.paramMap.project.approvalState==2}">selected</c:if>>审批未通过
+                                </option>
+                            </select>
                                 <a class="btn btn-success btn-sm" href="javascript:$('#form1').submit();"><i
                                         class="fa fa-search"></i> </a>
                             </label>
@@ -317,11 +317,22 @@
                                                     ${v.budget }
                                             </td>
                                             <td>
-                                                    ${protypes[v.type1].typename}
+                                                <c:if test="${v.type1==0}">
+                                                    无
+                                                </c:if>
+                                                <c:if test="${v.type1!=0}">
+                                                    ${protypesMap[v.type1]}
+                                                </c:if>
+
 
                                             </td>
                                             <td>
-                                                    ${protypes[v.type2].typename}
+                                                <c:if test="${v.type2==0}">
+                                                    无
+                                                </c:if>
+                                                <c:if test="${v.type2!=0}">
+                                                    ${protypesMap[v.type2]}
+                                                </c:if>
                                             </td>
                                             <td>
                                                     ${v.username }
@@ -333,7 +344,12 @@
                                                     ${v.province }${v.city }${v.area }${v.address }
                                             </td>
                                             <td>
-                                                    ${v.processId }
+                                                <c:if test="${v.processId==0}">
+                                                    无
+                                                </c:if>
+                                                <c:if test="${v.processId!=0}">
+                                                    ${processMap[v.processId]}
+                                                </c:if>
                                             </td>
                                             <td>
                                                     ${v.sourceDepartment }
@@ -383,11 +399,48 @@
                                             序号
                                         </th>
                                         <th width="">
-                                            角色名称
+                                            项目名字
+                                        </th>
+                                        <th width="100">
+                                            开始时间
+                                        </th>
+                                        <th width="100">
+                                            结束时间
                                         </th>
                                         <th width="">
-                                            备注
+                                            预算
                                         </th>
+                                        <th width="">
+                                            一级类型
+                                        </th>
+                                        <th width="">
+                                            二级类型
+                                        </th>
+                                        <th width="">
+                                            所属人
+                                        </th>
+                                        <th width="">
+                                            联系人
+                                        </th>
+                                        <th width="">
+                                            地址
+                                        </th>
+                                        <th width="">
+                                            进展阶段
+                                        </th>
+                                        <th width="">
+                                            来源部门
+                                        </th>
+                                        <th width="200">
+                                            项目进展情况
+                                        </th>
+                                        <th width="">
+                                            审批状态
+                                        </th>
+                                        <th width="">
+                                            审批情况
+                                        </th>
+
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -400,10 +453,73 @@
                                                     ${(pageBean.currentPage-1)*pageBean.pageSize+s.index+1 }
                                             </td>
                                             <td>
-                                                    ${v.rolename }
+                                                    ${v.proname }
                                             </td>
                                             <td>
-                                                    ${v.remark }
+                                                    ${v.startTime }
+                                            </td>
+                                            <td>
+                                                    ${v.endTime }
+                                            </td>
+                                            <td>
+                                                    ${v.budget }
+                                            </td>
+                                            <td>
+                                                <c:if test="${v.type1==0}">
+                                                    无
+                                                </c:if>
+                                                <c:if test="${v.type1!=0}">
+                                                    ${protypesMap[v.type1]}
+                                                </c:if>
+
+
+                                            </td>
+                                            <td>
+                                                <c:if test="${v.type2==0}">
+                                                    无
+                                                </c:if>
+                                                <c:if test="${v.type2!=0}">
+                                                    ${protypesMap[v.type2]}
+                                                </c:if>
+                                            </td>
+                                            <td>
+                                                    ${v.username }
+                                            </td>
+                                            <td>
+                                                    ${v.contactName }${v.contactPhone }
+                                            </td>
+                                            <td>
+                                                    ${v.province }${v.city }${v.area }${v.address }
+                                            </td>
+                                            <td>
+                                                <c:if test="${v.processId==0}">
+                                                    无
+                                                </c:if>
+                                                <c:if test="${v.processId!=0}">
+                                                    ${processMap[v.processId]}
+                                                </c:if>
+                                            </td>
+                                            <td>
+                                                    ${v.sourceDepartment }
+                                            </td>
+                                            <td>
+                                                    ${v.processDiscription }
+                                            </td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${v.approvalState==0}">
+                                                        未审批
+                                                    </c:when>
+                                                    <c:when test="${v.approvalState==1}">
+                                                        通过审批
+                                                    </c:when>
+                                                    <c:when test="${v.approvalState==2}">
+                                                        未通过审批
+                                                    </c:when>
+                                                </c:choose>
+                                            </td>
+                                            <td>
+                                                    ${v.approvalDiscription }
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -432,6 +548,27 @@
 </form>
 </body>
 <script type="text/javascript" src="<%=path%>/assets/js/area.js"></script>
+
+<script type="text/javascript">
+    $("#area").val("所有地区")
+
+</script>
+<c:if test="${!(pageBean.paramMap.project.area==null)}">
+    <script type="text/javascript">
+        $("#area").val("${pageBean.paramMap.project.area}");
+
+    </script>
+</c:if>
+<c:if test="${!(pageBean.paramMap.project.city==null)}">
+    <script type="text/javascript">
+        $("#city").val("${pageBean.paramMap.project.city}")
+    </script>
+</c:if>
+<c:if test="${!(pageBean.paramMap.project.province==null)}">
+    <script type="text/javascript">
+        $("#province").val("${pageBean.paramMap.project.province}")
+    </script>
+</c:if>
 <script type="text/javascript">
 
     $('#type1').change(function (index, value) {

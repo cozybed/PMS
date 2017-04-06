@@ -60,7 +60,7 @@
     </script>
 </head>
 <body>
-<form action="<%=path%>/project/approvalProjectList" method="post" id="form1" name="form1">
+<form action="<%=path%>/project/notProjectList" method="post" id="form1" name="form1">
     <input type="hidden" id="currentPage" name="currentPage" value="1"/>
     <!-- begin breadcrumb -->
 
@@ -78,7 +78,7 @@
                 <div class="panel-heading">
 
                     <h4 class="panel-title">
-                        项目审批
+                        项目储备
                     </h4>
                 </div>
                 <div class="panel-body">

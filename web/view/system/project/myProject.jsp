@@ -60,7 +60,7 @@
     </script>
 </head>
 <body>
-<form action="<%=path%>/project/approvalProjectList" method="post" id="form1" name="form1">
+<form action="<%=path%>/project/myProjectList" method="post" id="form1" name="form1">
     <input type="hidden" id="currentPage" name="currentPage" value="1"/>
     <!-- begin breadcrumb -->
 
@@ -78,7 +78,7 @@
                 <div class="panel-heading">
 
                     <h4 class="panel-title">
-                        项目审批
+                        我的项目
                     </h4>
                 </div>
                 <div class="panel-body">
@@ -137,12 +137,8 @@
                                 </c:forEach>
                             </select>
                                 <hr>
-                                所属人名字：<input name="username" id="username"
-                                             value="${pageBean.paramMap.project.username }"
-                                             type="text" class=""
-                                             placeholder=""
-                                             aria-controls="data-table"/>
-                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp联系人姓名：<input name="contactName" id="contactName"
+
+                                联系人姓名：<input name="contactName" id="contactName"
                                                                                      value="${pageBean.paramMap.project.contactName }"
                                                                                      type="text" class=""
                                                                                      placeholder=""
@@ -378,9 +374,9 @@
                                                     ${v.approvalDiscription }
                                             </td>
                                             <td>
-                                                <a href="<%=path %>/project/toApproveProject?id=${v.id }"><i
+                                                <a href="<%=path %>/project/toUpdateProject?id=${v.id }"><i
                                                         class="fa fa-edit"></i></a>
-
+                                                <!-- <a href="<%=path %>/role/toViewRole?ROLE_ID=${v.ROLE_ID }"><i class="fa fa-arrow-circle-o-right"></i></a>&nbsp;&nbsp;&nbsp;&nbsp; -->
 
                                             </td>
                                         </tr>

@@ -19,9 +19,12 @@ public class ProtypeServiceImpl extends BaseDao implements ProtypeService {
      */
     public PageBean createQueryPage(Map param) {
         StringBuffer sql = new StringBuffer();
-        sql.append(" select q.*,w.typename pname from t_protype as q left join t_protype w on q.pid=w.id WHERE 1=1 ");
+        StringBuffer sql2 = new StringBuffer();
+        sql.append("select q.*,w.typename pname from t_protype as q left join t_protype w on q.pid=w.id WHERE 1=1 ");
+        sql2.append("select count(*) from t_protype q where 1=1 ");
         if (!param.get("s_type_name").toString().equals("")) {
             sql.append(" AND q.typename LIKE '%" + param.get("s_type_name").toString() + "%' ");
+            sql2.append(" AND q.typename LIKE '%" + param.get("s_type_name").toString() + "%' ");
         }
         sql.append(" ORDER BY q.pid ASC");
         List list = getSqlMapClientTemplate().queryForList("getAllProtypes", Util.getPageSqlForMysql(sql.toString(), Integer.parseInt(param.get("pageSize").toString()), Integer.parseInt(param.get("currentPage").toString())));
@@ -30,7 +33,7 @@ public class ProtypeServiceImpl extends BaseDao implements ProtypeService {
                 Integer.parseInt(param.get("currentPage").toString()),
                 list,
                 param,
-                (int)getSqlMapClientTemplate().queryForObject("numberOfEntries","select count(*) from t_protype")
+                (int) getSqlMapClientTemplate().queryForObject("numberOfEntries", sql2.toString())
         );
     }
 
@@ -101,6 +104,11 @@ public class ProtypeServiceImpl extends BaseDao implements ProtypeService {
             e.printStackTrace();
             return "notOk";
         }
+    }
+
+    @Override
+    public Integer findMaxId() {
+        return (Integer) getSqlMapClientTemplate().queryForObject("findMaxIdOfProtype");
     }
 
 }

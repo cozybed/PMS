@@ -26,11 +26,16 @@ public class RoleServiceImpl extends BaseDao implements com.system.service.RoleS
     public PageBean createQueryPage(Map param) {
         // TODO Auto-generated method stub
         StringBuffer sql = new StringBuffer();
+        StringBuffer sql2 = new StringBuffer();
         sql.append(" select q.* from t_role q where 1=1 ");
+        sql2.append("select count(*) from t_role q where 1=1 ");
         if (!param.get("s_role_name").toString().equals("")) {
             sql.append(" and q.rolename like '%" + param.get("s_role_name").toString() + "%' ");
+            sql2.append(" and q.rolename like '%" + param.get("s_role_name").toString() + "%' ");
         }
+
         sql.append("   order by q.id asc");
+
         List list = getSqlMapClientTemplate().queryForList("getAllUsers",
                 Util.getPageSqlForMysql(
                         sql.toString(),
@@ -45,7 +50,7 @@ public class RoleServiceImpl extends BaseDao implements com.system.service.RoleS
                 Integer.parseInt(param.get("currentPage").toString()),
                 list,
                 param,
-                (int)getSqlMapClientTemplate().queryForObject("numberOfEntries","select count(*) from t_role")
+                (int)getSqlMapClientTemplate().queryForObject("numberOfEntries",sql2.toString())
         );
     }
 

@@ -2,9 +2,9 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap>
     <typeAlias alias="Project" type="com.system.vo.Project"></typeAlias>
-    <select id="getAllProjects" resultClass="java.util.HashMap" parameterClass="java.lang.String" remapResults="true">
-        $sql$
-    </select>
+    <!--<select id="getAllProjects" resultClass="java.util.HashMap" parameterClass="java.lang.String" remapResults="true">-->
+    <!--$sql$-->
+    <!--</select>-->
     <insert id="addProject" parameterClass="Project">
     INSERT INTO t_project (proname, startTime, endTime, budget, type1, type2, scale, username, contactName, contactPhone, area, city, province, address, processId, sourceDepartment, processDiscription, approvalState, approvalDiscription) VALUES (#proname#,#startTime#, #endTime#, #budget#,#type1#,#type2#,#scale#,#username#,#contactName#,#contactPhone#,#area#,#city#,#province#,#address#,#processId#,#sourceDepartment#,#processDiscription#,#approvalState#,#approvalDiscription#)
     </insert>
@@ -16,12 +16,142 @@
     </update>
     <delete id="deleteProject" parameterClass="java.lang.String">
         DELETE FROM t_project WHERE id=#id#
+
     </delete>
-    <select id="getAllUnapprovedProject" resultClass="java.util.HashMap" parameterClass="java.lang.String"
+    <select id="getAllUnapprovedProject" resultClass="java.util.HashMap" parameterClass="java.util.HashMap"
             remapResults="true">
-        SELECT Q.* from t_project Q WHERE Q.approvalState=0
+        SELECT Q.* from t_project Q WHERE Q.approvalState=0 ORDER BY Q.id desc Limit #offset#,#pageSize#
+
     </select>
     <update id="approveProject" parameterClass="java.util.HashMap">
         update t_project set approvalState=#approvalState#,approvalDiscription=#approvalDiscription# where id=#id#
     </update>
+    <select id="getProjects" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+        SELECT q.* FROM t_project q WHERE 1=1
+        <isNotEmpty prepend="AND" property="project.proname">
+            q.proname like concat('%', #project.proname#, '%')
+        </isNotEmpty>
+        <isGreaterThan property="project.type1" compareValue="0" prepend="AND">
+            q.type1=#project.type1#
+        </isGreaterThan>
+        <isGreaterThan property="project.type2" compareValue="0" prepend="AND">
+            q.type2=#project.type2#
+        </isGreaterThan>
+        <isNotNull property="project.startTime">
+            <isNotEqual property="project.startTime" compareValue="1000-01-01" prepend="AND">
+                q.startTime &gt; #project.startTime#
+            </isNotEqual>
+        </isNotNull>
+
+        <isNotNull property="project.endTime">
+            <isNotEqual property="project.endTime" compareValue="1000-01-01" prepend="AND">
+                q.startTime &lt; #project.endTime#
+            </isNotEqual>
+        </isNotNull>
+        <isNotEmpty prepend="AND" property="budget_min">
+            q.budget &gt; #budget_min#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="budget_max">
+            q.budget &lt; #budget_max#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="project.username">
+            q.username like concat('%', #project.username#, '%')
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="project.contactName">
+            q.contactName like concat('%', #project.contactName#, '%')
+        </isNotEmpty>
+        <isNotNull property="project.province">
+            <isNotEqual property="project.province" compareValue="所有省份" prepend="AND" >
+                q.province=#project.province#
+            </isNotEqual>
+        </isNotNull>
+        <isNotEmpty property="project.city">
+            <isNotEqual property="project.city" compareValue="所有城市" prepend="AND" >
+                q.city=#project.city#
+            </isNotEqual>
+        </isNotEmpty>
+        <isNotEmpty property="project.area">
+            <isNotEqual property="project.area" compareValue="所有地区" prepend="AND" >
+                q.area=#project.area#
+            </isNotEqual>
+        </isNotEmpty>
+        <isNotEmpty property="sourceDepartment" prepend="AND">
+            q.sourceDepartment like concat('%', #project.sourceDepartment#, '%')
+        </isNotEmpty>
+        <isGreaterThan property="project.processId" compareValue="0" prepend="AND">
+            q.processId=#project.processId#
+        </isGreaterThan>
+        <isLessThan property="project.approvalState" compareValue="100" prepend="AND">
+            q.approvalState=#project.approvalState#
+        </isLessThan>
+        <isNotEmpty property="getStock" prepend="AND">
+            q.approvalState &lt;&gt; 1
+        </isNotEmpty>
+        ORDER BY q.id desc LIMIT #offset#,#pageSize#
+    </select>
+    <select id="numberOfProjects" resultClass="Integer" parameterClass="java.util.HashMap">
+        SELECT count(*) FROM t_project q WHERE 1=1
+
+        <isNotEmpty prepend="AND" property="project.proname">
+            q.proname like concat('%', #project.proname#, '%')
+        </isNotEmpty>
+        <isGreaterThan property="project.type1" compareValue="0" prepend="AND">
+            q.type1=#project.type1#
+        </isGreaterThan>
+        <isGreaterThan property="project.type2" compareValue="0" prepend="AND">
+            q.type2=#project.type2#
+        </isGreaterThan>
+        <isNotNull property="project.startTime">
+            <isNotEqual property="project.startTime" compareValue="1000-01-01" prepend="AND">
+                q.startTime &gt; #project.startTime#
+            </isNotEqual>
+        </isNotNull>
+
+        <isNotNull property="project.endTime">
+            <isNotEqual property="project.endTime" compareValue="1000-01-01" prepend="AND">
+                q.startTime &lt; #project.endTime#
+            </isNotEqual>
+        </isNotNull>
+        <isNotEmpty prepend="AND" property="budget_min">
+            q.budget &gt; #budget_min#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="budget_max" >
+            q.budget &lt; #budget_max#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="project.username">
+            q.username like concat('%', #project.username#, '%')
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="project.contactName">
+            q.contactName like concat('%', #project.contactName#, '%')
+        </isNotEmpty>
+        <isNotNull property="project.province">
+            <isNotEqual property="project.province" compareValue="所有省份" prepend="AND" >
+                q.province=#project.province#
+            </isNotEqual>
+        </isNotNull>
+        <isNotEmpty property="project.city">
+            <isNotEqual property="project.city" compareValue="所有城市" prepend="AND" >
+                q.city=#project.city#
+            </isNotEqual>
+        </isNotEmpty>
+        <isNotEmpty property="project.area">
+            <isNotEqual property="project.area" compareValue="所有地区" prepend="AND" >
+                q.area=#project.area#
+            </isNotEqual>
+        </isNotEmpty>
+        <isNotEmpty property="sourceDepartment" prepend="AND">
+            q.sourceDepartment like concat('%', #project.sourceDepartment#, '%')
+        </isNotEmpty>
+        <isGreaterThan property="project.processId" compareValue="0" prepend="AND">
+            q.processId=#project.processId#
+        </isGreaterThan>
+        <isLessThan property="project.approvalState" compareValue="100" prepend="AND">
+            q.approvalState=#project.approvalState#
+        </isLessThan>
+        <isNotEmpty property="getStock" prepend="AND">
+            q.approvalState &lt;&gt; 1
+        </isNotEmpty>
+    </select>
 </sqlMap>

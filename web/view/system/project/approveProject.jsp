@@ -29,7 +29,7 @@
                         if (data == "notOk") {
                             alert("系统错误，请联系管理员!");
                         } else {
-                            window.location.href = "<%=path%>/protype/protypeList";
+                            window.location.href = "<%=path%>/project/approvalProjectList";
                         }
                     }
                 });

@@ -27,5 +27,7 @@
 	<select id="findProtypeById" resultClass="Protype" parameterClass="java.lang.String">
 		SELECT Q.* FROM t_protype Q WHERE Q.id=#id#
 	</select>
-
+<select id="findMaxIdOfProtype" resultClass="Integer" >
+	SELECT q.id from t_protype q ORDER BY q.id DESC LIMIT 1;
+</select>
 </sqlMap>

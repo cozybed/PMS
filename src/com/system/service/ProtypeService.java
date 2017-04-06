@@ -21,4 +21,5 @@ public interface ProtypeService {
     String updateObject(Object obj);
 
     String deleteObject(String id);
+    Integer findMaxId();
 }

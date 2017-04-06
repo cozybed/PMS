@@ -196,6 +196,7 @@ public class Project {
             this.approvalState = 0;
             return;
         }
+
         this.approvalState = Integer.parseInt(approvalState);
     }
 

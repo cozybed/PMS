@@ -22,8 +22,11 @@ public class UserServiceImpl extends BaseDao implements com.system.service.UserS
         // TODO Auto-generated method stub
         StringBuffer sql = new StringBuffer();
         sql.append(" select q.*,w.rolename from t_user q left join t_role w on q.role_id=w.id where 1=1 ");
+        StringBuffer sql2 = new StringBuffer();
+        sql2.append(" select count(*) from t_user q where 1=1 ");
         if (!param.get("s_user_name").toString().equals("")) {
             sql.append(" and q.username like '%" + param.get("s_user_name").toString() + "%' ");
+            sql2.append(" and q.username like '%" + param.get("s_user_name").toString() + "%' ");
         }
         sql.append("  order by w.id ");
         System.out.println(sql);
@@ -40,7 +43,7 @@ public class UserServiceImpl extends BaseDao implements com.system.service.UserS
                 Integer.parseInt(param.get("currentPage").toString()),
                 list,
                 param,
-                (int)getSqlMapClientTemplate().queryForObject("numberOfEntries","select count(*) from t_user")
+                (int)getSqlMapClientTemplate().queryForObject("numberOfEntries",sql2.toString())
         );
     }
 

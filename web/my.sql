@@ -259,6 +259,8 @@ SELECT Q.* from t_project Q WHERE Q.approvalState=0;
 select q.* from t_role q where 1=1  and q.rolename like '%技术%';
 select q.* from t_role q where 1=1  and q.rolename like '%技术%';
 update t_project set approvalState=0 WHERE id=26;
+SELECT * FROM t_project q WHERE 1=1 AND q.proname LIKE '%ff%' ORDER BY q.id desc LIMIT 0,10;
+SELECT q.* FROM t_project q WHERE q.startTime>"2017-02-30";
 /*!40101
 SET SQL_MODE = @OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS */;

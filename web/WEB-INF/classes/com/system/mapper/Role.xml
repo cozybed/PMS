@@ -3,13 +3,13 @@
 <sqlMap>
 
     <typeAlias alias="Role" type="com.system.vo.Role"></typeAlias>
-
-    <select id="getAllRoles" resultClass="java.util.HashMap" parameterClass="java.lang.String">
-		$sql$
-	</select>
 	<select id="numberOfEntries" resultClass="Integer">
 		$sql$
 	</select>
+    <select id="getAllRoles" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		$sql$
+	</select>
+
     <insert id="addRole" parameterClass="Role">
 		insert into t_role (rolename,remark) values (#rolename#,#remark#)    
 	</insert>

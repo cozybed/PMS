@@ -430,25 +430,7 @@ public class RoleController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "delProject", method = {RequestMethod.GET, RequestMethod.POST})
-    public void delProject(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response,
-                           @RequestParam(value = "delCheckBox", defaultValue = "") String[] delCheckBox) throws IOException {
-        String staus = "";
-        if (delCheckBox.length > 0) {
-            for (String id : delCheckBox) {
-                String flag = roleService.imCap("delete from t_project where id=" + id);
-                if (flag.equals("notOk")) {
-                    staus = flag;
-                    break;
-                } else {
-                    staus = "ok";
-                }
-            }
-        }
-        PrintWriter pw = response.getWriter();
-        pw.write(staus);
-        pw.flush();
-    }
+
 
     /**
      * 跳到编辑项目信息

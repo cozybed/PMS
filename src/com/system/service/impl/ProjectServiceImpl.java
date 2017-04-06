@@ -1,5 +1,6 @@
 package com.system.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,28 +24,36 @@ public class ProjectServiceImpl extends BaseDao implements ProjectService {
 //            sql.append(" and q.username like '%" + param.get("username").toString() + "%' ");uckjnme
 //
 //        }
-                if (param.get("approveProject")!=null) {
-            sql.append(" and q.approvalState = 0");
-
-        }
-        sql.append("   order by q.id desc");
-
-        List list = getSqlMapClientTemplate().queryForList("getAllUsers",
-                Util.getPageSqlForMysql(
-                        sql.toString(),
-                        Integer.parseInt(param.get("pageSize").toString()),
-                        Integer.parseInt(param.get("currentPage").toString()
-                        )
-                )
-
-        );
+//        if (param.get("approveProject") != null) {
+//            sql.append(" and q.approvalState = 0");
+//
+//        }
+//        sql.append("   order by q.id desc");
+//        String sql2 = Util.getPageSqlForMysql(
+//                sql.toString(),
+//                Integer.parseInt(param.get("pageSize").toString()),
+//                Integer.parseInt(param.get("currentPage").toString()
+//                )
+//        );
+        Integer offset = Integer.parseInt(param.get("pageSize").toString()) * (Integer.parseInt(param.get("currentPage").toString()) - 1);
+        param.put("offset",offset);
+        List list = getSqlMapClientTemplate().queryForList("getProjects", param);
+//        List list = getSqlMapClientTemplate().queryForList("getAllUsers",
+//                Util.getPageSqlForMysql(
+//                        sql.toString(),
+//                        Integer.parseInt(param.get("pageSize").toString()),
+//                        Integer.parseInt(param.get("currentPage").toString()
+//                        )
+//                )
+//
+//        );
 
         return Util.getPageBean(
                 Integer.parseInt(param.get("pageSize").toString()),
                 Integer.parseInt(param.get("currentPage").toString()),
                 list,
                 param,
-                (int)getSqlMapClientTemplate().queryForObject("numberOfEntries","select count(*) from t_project q where q.approvalState=0")
+                (int) getSqlMapClientTemplate().queryForObject("numberOfProjects",param)
         );
     }
 
@@ -89,10 +98,10 @@ public class ProjectServiceImpl extends BaseDao implements ProjectService {
     @Override
     public String approveProject(Map map) {
         try {
-            getSqlMapClientTemplate().update("approveProject",map);
+            getSqlMapClientTemplate().update("approveProject", map);
             return "ok";
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "notOk";
         }
