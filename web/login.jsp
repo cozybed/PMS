@@ -61,6 +61,9 @@
             <div class="login-buttons">
                 <button type="button" id="loginButton" class="btn btn-success btn-block btn-lg">登陆</button>
             </div>
+            <div class="register-buttons">
+                <button type="button" id="register-buttons" class="btn btn-success btn-block btn-lg" onclick="register()">注册</button>
+            </div>
         </div>
     </div>
 </div>
@@ -71,6 +74,9 @@
 <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="assets/plugins/jquery-cookie/jquery.cookie.js"></script>
 <script language="javascript">
+    function register() {
+        window.location.href = "<%=path%>/user/toRegister";
+    }
     $(function () {
         $(window).keypress(function (event) {
             switch (event.keyCode) {

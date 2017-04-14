@@ -26,29 +26,29 @@
 <body>
 <div class="frame-cover">
     <div class="frame-cover-image">
-        <img src="assets/img/welcome.gif" style="width: 100%"/>
+        <%--<img src="<%=path%>/assets/img/weldcome.gif" style="width: 100%"/>--%>
     </div>
 </div>
-<div class="row" style="margin-top:30px">
-    <button style="float:left;margin-left:100px" class="btn"><a href="">统计查询</a></button>
-    <div class="btn-group dropup" style="float:right">
-        <button style="float:right;margin-right:100px" class="btn btn-primary btn-squared dropdown-toggle"
-                data-toggle="dropdown" onclick="clickInfo()">信息管理
-        </button>
-        <ul class="dropdown-menu">
-            <li>
-                <a href="<%=path %>/user/userList">
-                    用户信息管理
-                </a>
-            </li>
-            <li>
-                <a href="<%=path %>/menu/menuList">
-                    菜单信息管理
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
+<%--<div class="row" style="margin-top:30px">--%>
+    <button style="float:left;margin-left:100px" class="btn"><a href="<%=path%>/chart/getChart1">统计查询</a></button>
+    <%--<div class="btn-group dropup" style="float:right">--%>
+        <%--<button style="float:right;margin-right:100px" class="btn btn-primary btn-squared dropdown-toggle"--%>
+                <%--data-toggle="dropdown" onclick="clickInfo()">信息管理--%>
+        <%--</button>--%>
+        <%--<ul class="dropdown-menu">--%>
+            <%--<li>--%>
+                <%--<a href="<%=path %>/user/userList">--%>
+                    <%--用户信息管理--%>
+                <%--</a>--%>
+            <%--</li>--%>
+            <%--<li>--%>
+                <%--<a href="<%=path %>/menu/menuList">--%>
+                    <%--菜单信息管理--%>
+                <%--</a>--%>
+            <%--</li>--%>
+        <%--</ul>--%>
+    <%--</div>--%>
+<%--</div>--%>
 
 
 </body>

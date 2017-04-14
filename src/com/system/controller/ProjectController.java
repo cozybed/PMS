@@ -285,6 +285,8 @@ public class ProjectController {
         String filePath = request.getSession().getServletContext().getRealPath("/") + "upload" + "\\"
                 + file.getOriginalFilename();
         long size = file.getSize();
+        HashMap<String, Integer> protypesSet = new <String, Integer>HashMap();
+        HashMap<String, Integer> processSet = new <String, Integer>HashMap();
         try {
             InputStream in = file.getInputStream();
             Workbook workbook = Workbook.getWorkbook(in);
@@ -296,14 +298,14 @@ public class ProjectController {
             // 获取指这下单元格的对象引用
             List<HashMap> process = (List<HashMap>) roleService.getAllProcess();
             List<HashMap> protypes = (List<HashMap>) protypeService.getAllTypes();
-            HashMap<String, Integer> protypesSet = new <String, Integer>HashMap();
+
             for (HashMap hashMap : protypes) {
                 System.out.println(hashMap.get("typename"));
                 System.out.println(hashMap.get("id"));
                 protypesSet.put((String) hashMap.get("typename"), (Integer) hashMap.get("id"));
 
             }
-            HashMap<String, Integer> processSet = new <String, Integer>HashMap();
+
             for (HashMap hashMap : process) {
                 processSet.put((String) hashMap.get("pname"), (Integer) hashMap.get("id"));
             }
@@ -420,21 +422,11 @@ public class ProjectController {
 
         List<HashMap> process = (List<HashMap>) roleService.getAllProcess();
         List<HashMap> protypes = (List<HashMap>) protypeService.getAllTypes();
-        HashMap<Integer, String> protypesMap = new <Integer, String>HashMap();
-        for (HashMap hashMap : protypes) {
-            protypesMap.put((Integer) hashMap.get("id"), (String) hashMap.get("typename"));
-
-        }
-        HashMap<Integer, String> processMap = new <Integer, String>HashMap();
-        for (HashMap hashMap : process) {
-            processMap.put((Integer) hashMap.get("id"), (String) hashMap.get("pname"));
-        }
-
 
         request.getSession().setAttribute("process", roleService.getAllProcess());
         request.getSession().setAttribute("protypes", protypeService.getAllTypes());
-        request.getSession().setAttribute("protypesMap", protypesMap);
-        request.getSession().setAttribute("processMap", processMap);
+        request.getSession().setAttribute("protypesMap", protypesSet);
+        request.getSession().setAttribute("processMap", processSet);
 
 
         return "system/project/showProject";
@@ -492,8 +484,21 @@ public class ProjectController {
             sheet1.addCell(new Label(18, 0, "审核状态", cellFormat));
             sheet1.addCell(new Label(19, 0, "审核意见", cellFormat));
             int i = 1;
-            List<HashMap> myProcesses = (List<HashMap>) request.getSession().getAttribute("process");
-            List<HashMap> protypes = (List<HashMap>) request.getSession().getAttribute("protypes");
+            HashMap<Integer, String> protypesId2Typename = new HashMap<>();
+
+            HashMap<Integer, String> processId2Processname = new HashMap<>();
+            List<HashMap> process = (List<HashMap>) roleService.getAllProcess();
+            List<HashMap> protypes = (List<HashMap>) protypeService.getAllTypes();
+            for (HashMap hashMap : protypes) {
+                System.out.println(hashMap.get("typename"));
+                System.out.println(hashMap.get("id"));
+                protypesId2Typename.put((Integer) hashMap.get("id"), (String) hashMap.get("typename"));
+
+            }
+
+            for (HashMap hashMap : process) {
+                processId2Processname.put((Integer) hashMap.get("id"), (String) hashMap.get("pname"));
+            }
             List approveStateName = new ArrayList<String>();
             approveStateName.add("未审批");
             approveStateName.add("审批通过");
@@ -511,12 +516,13 @@ public class ProjectController {
                 if (project.getType1() == 0) {
                     sheet1.addCell(new Label(5, i, "无一级类型", cellFormat));
                 } else {
-                    sheet1.addCell(new Label(5, i, (String) protypes.get(project.getType1() - 1).get("typename"), cellFormat));
+
+                    sheet1.addCell(new Label(5, i, protypesId2Typename.get(project.getType1()), cellFormat));
                 }
                 if (project.getType2() == 0) {
                     sheet1.addCell(new Label(6, i, "无二级类型", cellFormat));
                 } else {
-                    sheet1.addCell(new Label(6, i, (String) protypes.get(project.getType2() - 1).get("typename"), cellFormat));
+                    sheet1.addCell(new Label(6, i, protypesId2Typename.get(project.getType2()), cellFormat));
                 }
                 sheet1.addCell(new Label(7, i, project.getScale(), cellFormat));
                 sheet1.addCell(new Label(8, i, project.getUsername(), cellFormat));
@@ -529,7 +535,7 @@ public class ProjectController {
                 if (project.getProcessId() == 0) {
                     sheet1.addCell(new Label(15, i, "无进展阶段", cellFormat));
                 } else {
-                    sheet1.addCell(new Label(15, i, (String) myProcesses.get(project.getProcessId() - 1).get("pname"), cellFormat));
+                    sheet1.addCell(new Label(15, i, (String) processId2Processname.get(project.getProcessId()), cellFormat));
                 }
 
                 sheet1.addCell(new Label(16, i, project.getSourceDepartment(), cellFormat));

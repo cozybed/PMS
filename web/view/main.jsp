@@ -22,22 +22,7 @@
                 <li class="dropdown navbar-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <span
                             class="hidden-xs">${user.username }</span> <b class="caret"></b> </a>
-                    <ul class="dropdown-menu animated fadeInLeft">
-                        <li class="arrow"></li>
-                        <li>
-                            <a href="javascript:;">个人资料</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">个人设置</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">联系我们</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="javascript:;">安全退出</a>
-                        </li>
-                    </ul>
+
                 </li>
 
                 <li>
@@ -75,27 +60,41 @@
             <ul class="nav">
                 <c:forEach items="${menulist }" var="q">
                     <c:if test="${q.isfather=='1' }">
-                        <li class="has-sub">
-                            <a href="javascript:;">
-                                <b class="caret pull-right"></b>
-                                <i class="fa fa-video-camera"></i>
-                                <span>${q.menuname }</span>
-                            </a>
-                            <ul class="sub-menu">
-                                <c:forEach items="${menulist }" var="w">
-                                    <c:if test="${w.pid==q.id }">
+                        <c:set var="haveSub" value="0"></c:set>
+                        <c:forEach items="${menulist }" var="w">
+                            <c:if test="${w.pid==q.id }">
 
-                                        <c:forEach items="${mymenulist }" var="e">
-                                            <c:if test="${fn:length(e.menu_id) <= '3' }">
-                                                <c:if test="${w.id==e.menu_id }">
-                                                    <li><a href="<%=path %>/${w.menuurl }"
-                                                           target="iframepage">${w.menuname }</a></li>
-                                                </c:if></c:if>
-                                        </c:forEach>
-                                    </c:if>
+                                <c:forEach items="${mymenulist }" var="e">
+                                    <c:if test="${fn:length(e.menu_id) <= '3' }">
+                                        <c:if test="${w.id==e.menu_id }">
+                                            <c:set var="haveSub" value="1"></c:set>
+                                        </c:if></c:if>
                                 </c:forEach>
-                            </ul>
-                        </li>
+                            </c:if>
+                        </c:forEach>
+                        <c:if test="${haveSub=='1'}">
+                            <li class="has-sub">
+                                <a href="javascript:;">
+                                    <b class="caret pull-right"></b>
+                                    <i class="fa fa-video-camera"></i>
+                                    <span>${q.menuname }</span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <c:forEach items="${menulist }" var="w">
+                                        <c:if test="${w.pid==q.id }">
+
+                                            <c:forEach items="${mymenulist }" var="e">
+                                                <c:if test="${fn:length(e.menu_id) <= '3' }">
+                                                    <c:if test="${w.id==e.menu_id }">
+                                                        <li><a href="<%=path %>/${w.menuurl }"
+                                                               target="iframepage">${w.menuname }</a></li>
+                                                    </c:if></c:if>
+                                            </c:forEach>
+                                        </c:if>
+                                    </c:forEach>
+                                </ul>
+                            </li>
+                        </c:if>
                     </c:if>
                 </c:forEach>
             </ul>

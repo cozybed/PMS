@@ -99,6 +99,23 @@ public class UserController {
     }
 
     /**
+     * 注册用户
+     * @param response
+     * @param user
+     * @throws IOException
+     */
+
+    @RequestMapping(value = "toRegister", method = {RequestMethod.GET, RequestMethod.POST})
+    public String toUpdateUser() throws IOException {
+
+        return "register";
+    }
+    @RequestMapping(value = "register", method = {RequestMethod.GET, RequestMethod.POST})
+    public void editUser(HttpServletResponse response,User user) throws IOException {
+        user.setRole_id(4);
+        response.getWriter().print(userService.addObject(user));
+    }
+    /**
      * 跳到编辑用户
      *
      * @param modelMap

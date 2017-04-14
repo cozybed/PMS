@@ -16,10 +16,7 @@
                 });
             }
         });
-        function expByCheckBox() {
-            $('#form1').attr('action','project/exportProjects').submit()
-            $('#form1').attr('action','project/projectList')
-        }
+
         function expNoData() {
             $.ajax({
                 type: "POST",
@@ -32,10 +29,12 @@
                 }
             });
         }
-        function impByCheckBox() {
+
+        function delByCheckBox() {
             $.ajax({
                 type: "POST",
-                url: "<%=path%>/role/importRole",
+                url: "<%=path%>/project/delProject",
+                data: $('#form1').serialize(),
                 success: function (data) {
                     if (data == "notOk") {
                         alert("系统错误，请联系管理员!");
@@ -44,6 +43,12 @@
                 }
             });
         }
+        function impByCheckBox() {
+            $('#inputFile').click();
+        }
+
+
+
         function delByCheckBox() {
             $.ajax({
                 type: "POST",
@@ -60,6 +65,9 @@
     </script>
 </head>
 <body>
+<form class="hidden" action="<%=path%>/project/importProjects" method="post" id="imForm" name="imForm" enctype="multipart/form-data">
+    <input type="file" name="file" id="inputFile" onchange="$('#imForm').submit()">
+</form>
 <form action="<%=path%>/project/notProjectList" method="post" id="form1" name="form1">
     <input type="hidden" id="currentPage" name="currentPage" value="1"/>
     <!-- begin breadcrumb -->
@@ -197,14 +205,14 @@
                                 <c:set var="view" value="0"/>
                                 <c:set var="update" value="0"/>
                                 <c:forEach items="${menulist }" var="q">
-                                    <c:if test="${fn:containsIgnoreCase(q.menuurl, '/project/projectList')}">
+                                    <c:if test="${fn:containsIgnoreCase(q.menuurl, '/project/notProjectList')}">
                                         <c:forEach items="${mymenulist }" var="e">
 
                                             <%--<c:out value="${q.id}"></c:out>--%>
                                             <c:if test="${fn:split(e.menu_id, '.')[0] == q.id}">
                                                 <c:if test="${fn:containsIgnoreCase(e.menu_id, 'add')}"><a
                                                         class="btn btn-sm btn-success"
-                                                        href="<%=path%>/view/system/role/editRole.jsp"><i
+                                                        href="<%=path%>/view/system/project/add.jsp"><i
                                                         class="fa fa-plus"></i> 添加</a> </c:if>
                                                 <c:if test="${fn:containsIgnoreCase(e.menu_id, 'delete')}"><a
                                                         data-toggle="modal" class="btn btn-sm btn-success"
@@ -218,10 +226,7 @@
                                                         class="btn btn-sm btn-success"
                                                         href="javascript:expByCheckBox();">
                                                     <i class="fa fa-sign-out"></i>导出</a></c:if>
-                                                <c:if test="${fn:containsIgnoreCase(e.menu_id, 'import')}"><a
-                                                        class="btn btn-sm btn-success" href="javascript:expNoData();">
-                                                    <i
-                                                            class="fa fa-sign-out"></i>导出模板</a></c:if>
+
                                                 <c:if test="${fn:containsIgnoreCase(e.menu_id, 'view')}"><c:set
                                                         var="view"
                                                         value="1"/></c:if>

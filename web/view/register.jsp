@@ -8,12 +8,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport"/>
 <title></title>
-<link href="assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet"/>
-<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet"/>
+<link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
-<link href="assets/css/animate.min.css" rel="stylesheet"/>
-<link href="assets/css/style.min.css" rel="stylesheet"/>
-<link href="assets/css/style-responsive.min.css" rel="stylesheet"/>
+<link href="../assets/css/animate.min.css" rel="stylesheet"/>
+<link href="../assets/css/style.min.css" rel="stylesheet"/>
+<link href="../assets/css/style-responsive.min.css" rel="stylesheet"/>
 <link href="assets/css/theme/default.css" rel="stylesheet" id="theme"/>
 <style>
     .login-em {
@@ -36,7 +36,7 @@
 <body>
 <div class="login-cover">
     <div class="login-cover-image">
-        <img src="assets/img/login_bg.jpg" style="width: 100%"/>
+        <img src="../assets/img/login_bg.jpg" style="width: 100%"/>
     </div>
 </div>
 <div class="fade">
@@ -88,13 +88,7 @@
                                                value="${map.loginpass }" class="form-control"/>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label"><span style="color: red">*</span> 角色：</label>
-                                    <div class="col-md-9">
-                                        <select class="form-control" id="role_id" name="role_id">
-                                        </select>
-                                    </div>
-                                </div>
+
                                 <div class="form-group">
                                     <label class="col-md-3 control-label"><span style="color: red">*</span> 电话：</label>
                                     <div class="col-md-9">
@@ -151,12 +145,12 @@
         </div>
     </div>
 </div>
-<script src="assets/plugins/jquery/jquery-1.9.1.min.js"></script>
-<script src="assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
-<script src="assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
-<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+<script src="../assets/plugins/jquery/jquery-1.9.1.min.js"></script>
+<script src="../assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
+<script src="../assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+<script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../assets/plugins/jquery-cookie/jquery.cookie.js"></script>
 <script type="text/javascript">
     function tj() {
         var errorstr = '';
@@ -182,10 +176,7 @@
             ei++;
             errorstr = errorstr + ei + '.两次密码不一致\n';
         }
-        if ($("#role_id").val().trim() == '') {
-            ei++;
-            errorstr = errorstr + ei + '.用户角色不能为空\n';
-        }
+
         if ($("#email").val() == "") {
             ei++;
             errorstr = errorstr + ei + '.邮箱地址不能为空\n';
@@ -236,13 +227,13 @@
         if (errorstr.length == 0) {
             $.ajax({
                 type: "POST",
-                url: "<%=path%>/user/editUser",
+                url: "<%=path%>/user/register",
                 data: $('#form1').serialize(),
                 success: function (data) {
                     if (data == "notOk") {
                         alert("系统错误，请联系管理员!");
                     } else {
-                        window.location.href = "<%=path%>/user/userList";
+                        window.location.href = "<%=path%>";
                     }
                 }
             });
@@ -250,26 +241,6 @@
     }
 
 
-    $(function () {
-
-        jQuery("#role_id").empty();
-        $.ajax({
-            type: "POST",
-            url: "<%=path %>/user/getRoleForSelect",
-            async: false,
-            dataType: 'json',
-            data: $('#form1').serialize(),
-            success: function (data) {
-                jQuery("<option value=''>请选择</option>").appendTo("#role_id");
-                for (var i = 1; i < data.length; i++) {
-                    jQuery("<option value='" + data[i].id + "'>" + data[i].rolename + "</option>").appendTo("#role_id");
-                }
-            }
-        });
-
-        $("#role_id").val("${map.role_id}");
-        $("#sex").val("${map.sex}");
-    });
 
 </script>
 

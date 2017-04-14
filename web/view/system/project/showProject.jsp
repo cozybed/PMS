@@ -16,27 +16,6 @@
                 });
             }
         });
-        function expByCheckBox() {
-            $('#form1').attr('action','project/exportProjects').submit()
-            $('#form1').attr('action','project/projectList')
-        }
-        function expNoData() {
-            $.ajax({
-                type: "POST",
-                url: "<%=path%>/role/exportRole",
-                success: function (data) {
-                    if (data == "notOk") {
-                        alert("系统错误，请联系管理员!");
-                    }
-                    location = location;
-                }
-            });
-        }
-        function impByCheckBox() {
-            $('#inputFile').click();
-        }
-
-
         function delByCheckBox() {
             $.ajax({
                 type: "POST",
@@ -50,6 +29,29 @@
                 }
             });
         }
+        function expNoData() {
+            $.ajax({
+                type: "POST",
+                url: "<%=path%>/role/exportRole",
+                success: function (data) {
+                    if (data == "notOk") {
+                        alert("系统错误，请联系管理员!");
+                    }
+                    location = location;
+                }
+            });
+        }
+        function expByCheckBox() {
+            $('#form1').attr('action','project/exportProjects').submit()
+            $('#form1').attr('action','project/projectList')
+        }
+
+        function impByCheckBox() {
+            $('#inputFile').click();
+        }
+
+
+
     </script>
 </head>
 <body>
@@ -214,10 +216,7 @@
                                                         class="btn btn-sm btn-success"
                                                         href="javascript:expByCheckBox();">
                                                     <i class="fa fa-sign-out"></i>导出</a></c:if>
-                                                <c:if test="${fn:containsIgnoreCase(e.menu_id, 'import')}"><a
-                                                        class="btn btn-sm btn-success" href="javascript:expNoData();">
-                                                    <i
-                                                            class="fa fa-sign-out"></i>导出模板</a></c:if>
+
                                                 <c:if test="${fn:containsIgnoreCase(e.menu_id, 'view')}"><c:set
                                                         var="view"
                                                         value="1"/></c:if>
