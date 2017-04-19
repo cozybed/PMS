@@ -2,6 +2,7 @@ package com.system.controller;
 
 import com.common.ExportExcel;
 import com.common.PageBean;
+import com.google.gson.Gson;
 import com.sun.beans.editors.DoubleEditor;
 import com.sun.beans.editors.FloatEditor;
 import com.sun.beans.editors.LongEditor;
@@ -22,6 +23,7 @@ import org.h2.util.New;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
@@ -320,55 +322,58 @@ public class ProjectController {
                 String cellValue = sheets.getCell(5, i).getContents();
                 Protype protype = new Protype();
                 Integer maxId;
-                if (!protypesSet.containsKey(cellValue)) {
-                    if (cellValue == "无一级类型") {
-                        projectAdd.setType1(0);
-                        projectAdd.setType2(0);
-                        break;
-                    }
-                    protype.setTypename(cellValue);
-                    protype.setIsfather(1);
-                    protype.setPid(0);
-                    protype.setRemark("");
-                    protypeService.addObject(protype);
-                    maxId = protypeService.findMaxId();
-                    protypesSet.put(cellValue, maxId);
-                    projectAdd.setType1(maxId);
-
-                    cellValue = sheets.getCell(6, i).getContents();
-                    protype.setTypename(cellValue);
-                    protype.setIsfather(2);
-
-                    protype.setPid(maxId);
-                    protype.setRemark("");
-                    protypeService.addObject(protype);
-                    maxId = protypeService.findMaxId();
-                    protypesSet.put(cellValue, maxId);
-                    projectAdd.setType2(maxId);
-
-                } else {
-
-
-                    projectAdd.setType1(protypesSet.get(cellValue));
-                    cellValue = sheets.getCell(6, i).getContents();
+                for (int ii = 1; i <= 1; i++) {
                     if (!protypesSet.containsKey(cellValue)) {
-                        if (cellValue == "无二级类型") {
+                        if (cellValue.equals("无一级类型")) {
+                            projectAdd.setType1(0);
                             projectAdd.setType2(0);
                             break;
                         }
                         protype.setTypename(cellValue);
+                        protype.setIsfather(1);
+                        protype.setPid(0);
+                        protype.setRemark("");
+                        protypeService.addObject(protype);
+                        maxId = protypeService.findMaxId();
+                        protypesSet.put(cellValue, maxId);
+                        projectAdd.setType1(maxId);
+
+                        cellValue = sheets.getCell(6, i).getContents();
+                        protype.setTypename(cellValue);
                         protype.setIsfather(2);
-                        protype.setPid(protypesSet.get(sheets.getCell(5, i).getContents()));
+
+                        protype.setPid(maxId);
                         protype.setRemark("");
                         protypeService.addObject(protype);
                         maxId = protypeService.findMaxId();
                         protypesSet.put(cellValue, maxId);
                         projectAdd.setType2(maxId);
+
                     } else {
+
+
+                        projectAdd.setType1(protypesSet.get(cellValue));
                         cellValue = sheets.getCell(6, i).getContents();
-                        projectAdd.setType2(protypesSet.get(cellValue));
+                        if (!protypesSet.containsKey(cellValue)) {
+                            if (cellValue.equals("无二级类型")) {
+                                projectAdd.setType2(0);
+                                break;
+                            }
+                            protype.setTypename(cellValue);
+                            protype.setIsfather(2);
+                            protype.setPid(protypesSet.get(sheets.getCell(5, i).getContents()));
+                            protype.setRemark("");
+                            protypeService.addObject(protype);
+                            maxId = protypeService.findMaxId();
+                            protypesSet.put(cellValue, maxId);
+                            projectAdd.setType2(maxId);
+                        } else {
+                            cellValue = sheets.getCell(6, i).getContents();
+                            projectAdd.setType2(protypesSet.get(cellValue));
+                        }
                     }
                 }
+
                 projectAdd.setScale(sheets.getCell(7, i).getContents());
                 projectAdd.setUsername(sheets.getCell(8, i).getContents());
                 projectAdd.setContactName(sheets.getCell(9, i).getContents());
@@ -425,8 +430,17 @@ public class ProjectController {
 
         request.getSession().setAttribute("process", roleService.getAllProcess());
         request.getSession().setAttribute("protypes", protypeService.getAllTypes());
-        request.getSession().setAttribute("protypesMap", protypesSet);
-        request.getSession().setAttribute("processMap", processSet);
+        HashMap<Integer, String> protypesMap = new <Integer, String>HashMap();
+        for (HashMap hashMap : protypes) {
+            protypesMap.put((Integer) hashMap.get("id"), (String) hashMap.get("typename"));
+
+        }
+        HashMap<Integer, String> processMap = new <Integer, String>HashMap();
+        for (HashMap hashMap : process) {
+            processMap.put((Integer) hashMap.get("id"), (String) hashMap.get("pname"));
+        }
+        request.getSession().setAttribute("protypesMap", protypesMap);
+        request.getSession().setAttribute("processMap", processMap);
 
 
         return "system/project/showProject";
@@ -567,6 +581,42 @@ public class ProjectController {
         }
 
 
+    }
+
+    @RequestMapping(value = "getStats", method = {RequestMethod.GET, RequestMethod.POST})
+    public void getStats(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
+        Gson gson = new Gson();
+        List<Project> list = projectService.getAllProjects();
+        HashMap<String, Integer> areas = new HashMap();
+        HashMap<String, Integer> types = new HashMap();
+        HashMap<Integer, String> protypesMap = (HashMap<Integer, String>) request.getSession().getAttribute("protypesMap");
+        for (Project project : list) {
+            if (areas.containsKey(project.getArea())) {
+                areas.replace(project.getArea(), areas.get(project.getArea()) + 1);
+            } else {
+                areas.put(project.getArea(), 1);
+            }
+            if (types.containsKey(protypesMap.get(project.getType2()))) {
+                types.replace(protypesMap.get(project.getType2()), types.get(protypesMap.get(project.getType2())) + 1);
+            } else {
+                types.put(protypesMap.get(project.getType2()), 1);
+            }
+
+        }
+        List stats = new ArrayList();
+        stats.add(types);
+        stats.add(areas);
+        PrintWriter writer = response.getWriter();
+        writer.print(gson.toJson(stats));
+        writer.flush();
+        System.out.println(gson.toJson(stats));
+    }
+    @RequestMapping(value = "trend", method = {RequestMethod.GET, RequestMethod.POST})
+    public String trend(){
+        return "system/project/trend";
     }
 
 }

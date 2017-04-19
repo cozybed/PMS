@@ -19,5 +19,7 @@ public interface ProjectService {
     String deleteObject(String id);
 
     String approveProject(Map map);
+
+    List getAllProjects();
 }
 

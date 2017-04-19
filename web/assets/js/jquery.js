@@ -7,7 +7,7 @@
  * http://jquery.org/license
  *
  * Includes Sizzle.js
- * http://sizzlejs.com/
+ * http://sizzlejs.com/ w
  * Copyright 2010, The Dojo Foundation
  * Released under the MIT, BSD, and GPL Licenses.
  *

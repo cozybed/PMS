@@ -17,36 +17,9 @@ import com.common.Util;
 public class ProjectServiceImpl extends BaseDao implements ProjectService {
 
     public PageBean createQueryPage(Map param) {
-        StringBuffer sql = new StringBuffer();
-        sql.append(" select q.* from t_project q where 1=1 ");
-        Project project = (Project) param.get("project");
-//        if (project.getProname() != null) {
-//            sql.append(" and q.username like '%" + param.get("username").toString() + "%' ");uckjnme
-//
-//        }
-//        if (param.get("approveProject") != null) {
-//            sql.append(" and q.approvalState = 0");
-//
-//        }
-//        sql.append("   order by q.id desc");
-//        String sql2 = Util.getPageSqlForMysql(
-//                sql.toString(),
-//                Integer.parseInt(param.get("pageSize").toString()),
-//                Integer.parseInt(param.get("currentPage").toString()
-//                )
-//        );
         Integer offset = Integer.parseInt(param.get("pageSize").toString()) * (Integer.parseInt(param.get("currentPage").toString()) - 1);
         param.put("offset",offset);
         List list = getSqlMapClientTemplate().queryForList("getProjects", param);
-//        List list = getSqlMapClientTemplate().queryForList("getAllUsers",
-//                Util.getPageSqlForMysql(
-//                        sql.toString(),
-//                        Integer.parseInt(param.get("pageSize").toString()),
-//                        Integer.parseInt(param.get("currentPage").toString()
-//                        )
-//                )
-//
-//        );
 
         return Util.getPageBean(
                 Integer.parseInt(param.get("pageSize").toString()),
@@ -105,6 +78,13 @@ public class ProjectServiceImpl extends BaseDao implements ProjectService {
             e.printStackTrace();
             return "notOk";
         }
+    }
+
+    @Override
+    public List getAllProjects() {
+        List list = getSqlMapClientTemplate().queryForList("getAllProjects");
+        return list;
+
     }
 
 }

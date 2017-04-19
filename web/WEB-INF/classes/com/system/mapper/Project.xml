@@ -2,9 +2,9 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap>
     <typeAlias alias="Project" type="com.system.vo.Project"></typeAlias>
-    <!--<select id="getAllProjects" resultClass="java.util.HashMap" parameterClass="java.lang.String" remapResults="true">-->
-    <!--$sql$-->
-    <!--</select>-->
+    <select id="getAllProjects" resultClass="Project" parameterClass="Project" remapResults="true">
+    SELECT Q.* FROM t_project Q
+    </select>
     <insert id="addProject" parameterClass="Project">
     INSERT INTO t_project (proname, startTime, endTime, budget, type1, type2, scale, username, contactName, contactPhone, area, city, province, address, processId, sourceDepartment, processDiscription, approvalState, approvalDiscription) VALUES (#proname#,#startTime#, #endTime#, #budget#,#type1#,#type2#,#scale#,#username#,#contactName#,#contactPhone#,#area#,#city#,#province#,#address#,#processId#,#sourceDepartment#,#processDiscription#,#approvalState#,#approvalDiscription#)
     </insert>
@@ -62,17 +62,17 @@
             q.contactName like concat('%', #project.contactName#, '%')
         </isNotEmpty>
         <isNotNull property="project.province">
-            <isNotEqual property="project.province" compareValue="所有省份" prepend="AND" >
+            <isNotEqual property="project.province" compareValue="所有省份" prepend="AND">
                 q.province=#project.province#
             </isNotEqual>
         </isNotNull>
         <isNotEmpty property="project.city">
-            <isNotEqual property="project.city" compareValue="所有城市" prepend="AND" >
+            <isNotEqual property="project.city" compareValue="所有城市" prepend="AND">
                 q.city=#project.city#
             </isNotEqual>
         </isNotEmpty>
         <isNotEmpty property="project.area">
-            <isNotEqual property="project.area" compareValue="所有地区" prepend="AND" >
+            <isNotEqual property="project.area" compareValue="所有地区" prepend="AND">
                 q.area=#project.area#
             </isNotEqual>
         </isNotEmpty>
@@ -116,7 +116,7 @@
         <isNotEmpty prepend="AND" property="budget_min">
             q.budget &gt; #budget_min#
         </isNotEmpty>
-        <isNotEmpty prepend="AND" property="budget_max" >
+        <isNotEmpty prepend="AND" property="budget_max">
             q.budget &lt; #budget_max#
         </isNotEmpty>
 
@@ -127,17 +127,17 @@
             q.contactName like concat('%', #project.contactName#, '%')
         </isNotEmpty>
         <isNotNull property="project.province">
-            <isNotEqual property="project.province" compareValue="所有省份" prepend="AND" >
+            <isNotEqual property="project.province" compareValue="所有省份" prepend="AND">
                 q.province=#project.province#
             </isNotEqual>
         </isNotNull>
         <isNotEmpty property="project.city">
-            <isNotEqual property="project.city" compareValue="所有城市" prepend="AND" >
+            <isNotEqual property="project.city" compareValue="所有城市" prepend="AND">
                 q.city=#project.city#
             </isNotEqual>
         </isNotEmpty>
         <isNotEmpty property="project.area">
-            <isNotEqual property="project.area" compareValue="所有地区" prepend="AND" >
+            <isNotEqual property="project.area" compareValue="所有地区" prepend="AND">
                 q.area=#project.area#
             </isNotEqual>
         </isNotEmpty>

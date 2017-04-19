@@ -321,7 +321,7 @@
                                                     无
                                                 </c:if>
                                                 <c:if test="${v.type1!=0}">
-                                                    ${protypes[v.type1-1].typename}
+                                                    ${protypesMap[v.type1]}
                                                 </c:if>
 
 
@@ -331,7 +331,7 @@
                                                     无
                                                 </c:if>
                                                 <c:if test="${v.type2!=0}">
-                                                    ${protypes[v.type2-1].typename}
+                                                    ${protypesMap[v.type2]}
                                                 </c:if>
                                             </td>
                                             <td>
@@ -348,7 +348,7 @@
                                                     无
                                                 </c:if>
                                                 <c:if test="${v.processId!=0}">
-                                                    ${process[v.processId-1].pname}
+                                                    ${processMap[v.processId]}
                                                 </c:if>
                                             </td>
                                             <td>
@@ -469,7 +469,7 @@
                                                     无
                                                 </c:if>
                                                 <c:if test="${v.type1!=0}">
-                                                    ${protypes[v.type1-1].typename}
+                                                    ${protypesMap[v.type1]}
                                                 </c:if>
 
 
@@ -479,7 +479,7 @@
                                                     无
                                                 </c:if>
                                                 <c:if test="${v.type2!=0}">
-                                                    ${protypes[v.type2-1].typename}
+                                                    ${protypesMap[v.type2]}
                                                 </c:if>
                                             </td>
                                             <td>
@@ -496,7 +496,7 @@
                                                     无
                                                 </c:if>
                                                 <c:if test="${v.processId!=0}">
-                                                    ${process[v.processId-1].pname}
+                                                    ${processMap[v.processId]}
                                                 </c:if>
                                             </td>
                                             <td>
